@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.Behavior;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class VisualSensor : BaseSensor
 {
@@ -45,6 +47,8 @@ public class VisualSensor : BaseSensor
                 }
             }
         }
+        
+        graph.BlackboardReference.SetVariableValue("TargetInSight", false);
     }
 
     protected override void DrawDebugVisualization()

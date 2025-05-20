@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Unity.Behavior;
 
 // Base abstract class for all senses
 public abstract class BaseSensor : MonoBehaviour
@@ -10,6 +11,7 @@ public abstract class BaseSensor : MonoBehaviour
     [SerializeField] protected string[] detectableTags;
     [SerializeField] protected bool showDebugVisuals = true;
     [SerializeField] protected Color debugColor = Color.yellow;
+    [SerializeField] protected BehaviorGraph graph;
 
     protected float sensorTimer;
     public List<StimulusInfo> DetectedStimuli { get; protected set; } = new List<StimulusInfo>();
