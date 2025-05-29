@@ -16,6 +16,7 @@ public class VisualSensor : BaseSensor
         foreach (Collider hit in hitColliders)
         {
             if (hit.gameObject == gameObject) continue;
+            
 
             Vector3 directionToTarget = (hit.transform.position - transform.position).normalized;
             float angle = Vector3.Angle(transform.forward, directionToTarget);
@@ -24,11 +25,18 @@ public class VisualSensor : BaseSensor
             {
                 if (requiresLineOfSight)
                 {
-                    if (!Physics.Raycast(transform.position, directionToTarget, out RaycastHit rayHit, viewRadius))
+                    
+                    // Ignore the layer that your sensor is on
+                    int layerMask = ~(1 << gameObject.layer);
+                    if (!Physics.Raycast(transform.position, directionToTarget, out RaycastHit rayHit, viewRadius, layerMask))
                         continue;
 
+
                     if (rayHit.collider != hit)
+                    {
                         continue;
+                    }
+                        
                 }
 
                 // Calculate intensity based on distance
