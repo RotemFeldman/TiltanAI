@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateDefinitions:
   - key: Hungry
-    defaultValue: 1
-  - key: Has Food
     defaultValue: 0
+  - key: Has Food
+    defaultValue: 1
   - key: Nothing
     defaultValue: 0

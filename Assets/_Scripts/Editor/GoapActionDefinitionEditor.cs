@@ -9,8 +9,6 @@ public class GoapActionDefinitionSOEditor : Editor
     private SerializedProperty preconditionsProperty;
     private SerializedProperty effectsProperty;
     
-    // Removed actionCostProperty
-    
     private List<string> cachedWorldStateKeys = new List<string>();
     private GUIContent[] worldStateKeyOptions;
     
@@ -19,8 +17,6 @@ public class GoapActionDefinitionSOEditor : Editor
         actionNameProperty = serializedObject.FindProperty("actionName");
         preconditionsProperty = serializedObject.FindProperty("preconditions");
         effectsProperty = serializedObject.FindProperty("effects");
-        
-        // Removed actionCostProperty initialization
         
         RefreshWorldStateKeys();
     }
@@ -71,14 +67,6 @@ public class GoapActionDefinitionSOEditor : Editor
         // Draw the action name field
         EditorGUILayout.PropertyField(actionNameProperty);
         
-        // Removed action cost field
-        
-        // Check if action name changed
-        if (oldActionName != actionNameProperty.stringValue)
-        {
-            RenameAssetToMatchActionName();
-        }
-        
         // Button to refresh world state keys
         if (GUILayout.Button("Refresh Available World States"))
         {
@@ -105,6 +93,12 @@ public class GoapActionDefinitionSOEditor : Editor
         if (GUILayout.Button("Add Effect"))
         {
             AddWorldStateEntry(effectsProperty);
+        }
+        
+        // Check if action name changed
+        if (oldActionName != actionNameProperty.stringValue)
+        {
+            RenameAssetToMatchActionName();
         }
         
         serializedObject.ApplyModifiedProperties();
@@ -159,11 +153,11 @@ public class GoapActionDefinitionSOEditor : Editor
                 }
             }
             
-            // Boolean value
+            // Boolean value - explicit label and more space
+            EditorGUILayout.LabelField("Value:", GUILayout.Width(55));
             valueProp.boolValue = EditorGUILayout.Toggle(
-                new GUIContent("Value"), 
                 valueProp.boolValue, 
-                GUILayout.Width(80)
+                GUILayout.Width(30)
             );
             
             // Delete button

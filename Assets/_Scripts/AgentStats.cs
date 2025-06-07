@@ -24,4 +24,8 @@ public class AgentStats
     [Header("Movement Stats")]
     [SerializeField] [Min(0)] public float moveSpeed = 5f;
     [SerializeField] [Min(0)] public float rotationSpeed = 120f;
+    
+    [Header("Hunger and Sleep stats")] 
+    [SerializeField] [Min(0)] public float hungerRate = 0.1f; // How fast hunger increases
+    
 }

@@ -7,7 +7,6 @@ public class GoapGoalDefinitionSO : ScriptableObject
     [System.Serializable]
     public class GoalState
     {
-        // Removed the attribute since we'll handle it in an editor script
         public string key;
         public bool value;
     }
@@ -20,9 +19,23 @@ public class GoapGoalDefinitionSO : ScriptableObject
     
     public GoapGoal CreateGoal()
     {
-        // For backward compatibility, use the first desired state as the main goal key
-        string mainKey = desiredStates.Count > 0 ? desiredStates[0].key : goalName;
-        return new GoapGoal(mainKey, priority);
+        // For backward compatibility, if no desired states, use the goal name as the key
+        if (desiredStates.Count == 0)
+        {
+            return new GoapGoal(goalName, priority);
+        }
+        
+        // Use the first desired state as the main goal key for identification
+        string mainKey = desiredStates[0].key;
+        
+        // Create a dictionary of all desired states
+        Dictionary<string, bool> goalConditions = new Dictionary<string, bool>();
+        foreach (var state in desiredStates)
+        {
+            goalConditions[state.key] = state.value;
+        }
+        
+        return new GoapGoal(mainKey, priority, goalConditions);
     }
     
     public Dictionary<string, bool> GetDesiredStates()
@@ -50,9 +63,4 @@ public class GoapGoalDefinitionSO : ScriptableObject
             goalName = assetName;
         }
     }
-}
-
-// Custom attribute for the dropdown - this can stay here since it's not editor-specific
-public class StateKeyDropdownAttribute : PropertyAttribute
-{
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0aa3dc537b5fc24681d0315afcb638f, type: 3}
   m_Name: GoapAgentConfig
   m_EditorClassIdentifier: 
-  initialWorldState: {fileID: 0}
+  initialWorldState: {fileID: 11400000, guid: 80cb6ffcedfdc604d87df61b8b14c254, type: 2}
   availableActions:
   - {fileID: 11400000, guid: 1f92fe9bd4950bd48b2062d8d9cebb76, type: 2}
   possibleGoals:

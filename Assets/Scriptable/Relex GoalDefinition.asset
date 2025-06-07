@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 281e4a9726837664e99e65962e0ebc1c, type: 3}
-  m_Name: Nothing GoalDefinition
+  m_Name: Relex GoalDefinition
   m_EditorClassIdentifier: 
-  goalName: NothingGoal
-  priority: 1
+  goalName: Rele
+  priority: 2
   desiredStates:
   - key: Nothing
     value: 1

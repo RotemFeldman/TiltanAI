@@ -12,34 +12,57 @@ public class GoapPlanner
         Queue<GoapAction> plan = new Queue<GoapAction>();
         
         // Check if the goal is already satisfied
-        if (workingState.ContainsKey(goal.goalKey) && workingState[goal.goalKey])
+        bool goalAlreadySatisfied = true;
+        foreach (var condition in goal.Conditions)
+        {
+            if (!workingState.ContainsKey(condition.Key) || 
+                workingState[condition.Key] != condition.Value)
+            {
+                goalAlreadySatisfied = false;
+                break;
+            }
+        }
+        
+        if (goalAlreadySatisfied)
         {
             Debug.Log($"Goal {goal.goalKey} is already satisfied");
             return plan; // Return empty plan
         }
         
-        // Find a sequence of actions that achieve the goal
-        if (BuildPlan(usableActions, plan, goal.goalKey, workingState))
+        // Plan for each condition that is not satisfied
+        foreach (var condition in goal.Conditions)
         {
-            return plan;
+            // Skip conditions that are already satisfied
+            if (workingState.ContainsKey(condition.Key) && 
+                workingState[condition.Key] == condition.Value)
+            {
+                continue;
+            }
+            
+            // Find a plan for this specific condition
+            if (!BuildPlan(usableActions, plan, condition.Key, condition.Value, workingState))
+            {
+                // If we can't plan for any condition, return empty plan
+                Debug.LogWarning($"Could not find a plan for condition {condition.Key}={condition.Value}");
+                return new Queue<GoapAction>();
+            }
         }
         
-        // If no plan was found, return an empty plan
-        Debug.LogWarning($"Could not find a plan for goal {goal.goalKey}");
-        return new Queue<GoapAction>();
+        Debug.Log($"Plan found for goal {goal.goalKey} with {plan.Count} actions");
+        return plan;
     }
     
-    private bool BuildPlan(List<GoapAction> actions, Queue<GoapAction> plan, string goalKey, Dictionary<string, bool> state)
+    private bool BuildPlan(List<GoapAction> actions, Queue<GoapAction> plan, string goalKey, bool goalValue, Dictionary<string, bool> state)
     {
         // Base case: if the goal state is already satisfied
-        if (state.ContainsKey(goalKey) && state[goalKey])
+        if (state.ContainsKey(goalKey) && state[goalKey] == goalValue)
             return true;
             
         // Try each action that could satisfy the goal
         foreach (GoapAction action in actions)
         {
             // Skip actions that don't provide the goal effect
-            if (!action.Effects.ContainsKey(goalKey) || action.Effects[goalKey] != true)
+            if (!action.Effects.ContainsKey(goalKey) || action.Effects[goalKey] != goalValue)
                 continue;
                 
             // Check if the action's preconditions can be met
@@ -77,7 +100,7 @@ public class GoapPlanner
                 foreach (var precond in precondsToSatisfy)
                 {
                     Queue<GoapAction> subPlan = new Queue<GoapAction>();
-                    if (!BuildPlan(actions, subPlan, precond.Key, state))
+                    if (!BuildPlan(actions, subPlan, precond.Key, precond.Value, state))
                     {
                         allPrecondsMet = false;
                         break;
@@ -117,16 +140,31 @@ public class GoapPlanner
             return null;
         }
         
-        // Sort by priority (highest first)
+        // Sort by priority (lowest number = highest priority)
         List<GoapGoal> sortedGoals = new List<GoapGoal>(goals);
-        sortedGoals.Sort((a, b) => b.priority.CompareTo(a.priority));
+        sortedGoals.Sort((a, b) => a.priority.CompareTo(b.priority));
+
         
         foreach (var goal in sortedGoals)
         {
-            // A goal is valid if either:
-            // 1. The state doesn't exist yet (we need to achieve it)
-            // 2. The state exists but is false (we need to make it true)
-            if (!worldState.ContainsKey(goal.goalKey) || worldState[goal.goalKey] == false)
+            // Check if any condition is not satisfied
+            bool needsToBeAchieved = false;
+            
+            foreach (var condition in goal.Conditions)
+            {
+                // A goal condition needs to be achieved if:
+                // 1. The state doesn't exist yet, or
+                // 2. The state exists but has a different value than desired
+                if (!worldState.ContainsKey(condition.Key) || 
+                    worldState[condition.Key] != condition.Value)
+                {
+                    needsToBeAchieved = true;
+                    Debug.Log($"Goal {goal.goalKey} needs to be achieved: {condition.Key}={condition.Value}");
+                    break;
+                }
+            }
+            
+            if (needsToBeAchieved)
             {
                 return goal;
             }

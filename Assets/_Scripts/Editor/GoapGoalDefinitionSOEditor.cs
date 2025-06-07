@@ -38,6 +38,7 @@ public class GoapGoalDefinitionSOEditor : Editor
         // Basic properties
         EditorGUILayout.PropertyField(goalNameProperty);
         EditorGUILayout.PropertyField(priorityProperty);
+        EditorGUILayout.PropertyField(desiredStatesProperty);
         
         // Check if goal name changed
         if (oldGoalName != goalNameProperty.stringValue)
