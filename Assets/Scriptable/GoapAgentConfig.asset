@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0aa3dc537b5fc24681d0315afcb638f, type: 3}
+  m_Name: GoapAgentConfig
+  m_EditorClassIdentifier: 
+  initialWorldState: {fileID: 0}
+  availableActions:
+  - {fileID: 11400000, guid: 1f92fe9bd4950bd48b2062d8d9cebb76, type: 2}
+  possibleGoals:
+  - {fileID: 11400000, guid: 3ef85db7e18da7d4fa3c6576a565eb04, type: 2}
+  - {fileID: 11400000, guid: a42f383b59c464b45910cb9454fe5b98, type: 2}

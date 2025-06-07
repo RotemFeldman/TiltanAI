@@ -3746,7 +3746,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1673315709993555858, guid: 4b9806664171e444281e9ead73010904, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 547165863}
   m_SourcePrefab: {fileID: 100100000, guid: 4b9806664171e444281e9ead73010904, type: 3}
 --- !u!4 &547165861 stripped
@@ -3771,7 +3771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea1260c7e5a44ecad8b0b672b5d6279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
+  agentConfig: {fileID: 11400000, guid: 3b485782f3706524db7ebc8c8b5f2392, type: 2}
 --- !u!1001 &558752018
 PrefabInstance:
   m_ObjectHideFlags: 0

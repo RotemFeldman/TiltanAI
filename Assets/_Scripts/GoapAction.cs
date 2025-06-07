@@ -3,42 +3,36 @@ using UnityEngine;
 
 public abstract class GoapAction
 {
-    public Dictionary<string, bool> Preconditions = new Dictionary<string, bool>();
-    public Dictionary<string, bool> Effects = new Dictionary<string, bool>();
+    private Dictionary<string, bool> preconditions;
+    private Dictionary<string, bool> effects;
+    // Removed action cost field
     
-    public abstract bool IsDone();
+    public Dictionary<string, bool> Preconditions => preconditions;
+    public Dictionary<string, bool> Effects => effects;
+    // Removed action cost property
+    
+    public GoapAction()
+    {
+        preconditions = new Dictionary<string, bool>();
+        effects = new Dictionary<string, bool>();
+    }
+    
+    // Check if the action can be performed based on the current world state
+    public virtual bool CheckPreconditions(Dictionary<string, bool> worldState)
+    {
+        foreach (var kvp in preconditions)
+        {
+            if (!worldState.TryGetValue(kvp.Key, out bool value) || value != kvp.Value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    // Perform the action
     public abstract void Perform();
     
-    public virtual bool CheckProceduralPrecondition(Dictionary<string, bool> worldState)
-    {
-        // First check all dictionary preconditions
-        foreach (var precondition in Preconditions)
-        {
-            if (!worldState.ContainsKey(precondition.Key))
-            {
-                Debug.Log($"[{GetType().Name}] Failed precondition check: '{precondition.Key}' state doesn't exist in world state");
-                return false;
-            }
-            
-            if (worldState[precondition.Key] != precondition.Value)
-            {
-                Debug.Log($"[{GetType().Name}] Failed precondition check: '{precondition.Key}' is {worldState[precondition.Key]}, but needs to be {precondition.Value}");
-                return false;
-            }
-        }
-        
-        // If all dictionary preconditions are met, check custom conditions
-        if (!CheckCustomPrecondition(worldState))
-        {
-            Debug.LogWarning($"[{GetType().Name}] Failed custom precondition check");
-            return false;
-        }
-        
-        return true;
-    }
-    
-    protected virtual bool CheckCustomPrecondition(Dictionary<string, bool> worldState)
-    {
-        return true;
-    }
+    // Check if the action is complete
+    public abstract bool IsDone();
 }
