@@ -3748,6 +3748,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1673315709993555858, guid: 4b9806664171e444281e9ead73010904, type: 3}
       insertIndex: 2
       addedObject: {fileID: 547165863}
+    - targetCorrespondingSourceObject: {fileID: 1673315709993555858, guid: 4b9806664171e444281e9ead73010904, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 547165864}
   m_SourcePrefab: {fileID: 100100000, guid: 4b9806664171e444281e9ead73010904, type: 3}
 --- !u!4 &547165861 stripped
 Transform:
@@ -3772,6 +3775,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentConfig: {fileID: 11400000, guid: 3b485782f3706524db7ebc8c8b5f2392, type: 2}
+--- !u!114 &547165864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547165862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5096f1734cd2e2242a8c118cebbf9845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 100
+    maxEnergy: 100
+    healthRegenRate: 1
+    energyRegenRate: 5
+    physicalDefense: 10
+    magicalDefense: 10
+    elementalResistance: 0
+    baseDamage: 10
+    criticalChance: 0.05
+    criticalMultiplier: 1.5
+    attackSpeed: 1
+    moveSpeed: 5
+    rotationSpeed: 120
+    hungerRate: 0.1
+  currentHealth: 0
+  currentEnergy: 0
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnDamageReceived:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  attackCooldown: 0
+  agent: {fileID: 0}
 --- !u!1001 &558752018
 PrefabInstance:
   m_ObjectHideFlags: 0
