@@ -7,10 +7,11 @@ namespace UtilityAI {
     public class Brain : MonoBehaviour {
         public List<AIAction> actions;
         public Context context;
-
+        private float timeOfTheDay = 0;
         
-
+        
         void Awake() {
+            
             context = new Context(this);
             
 
@@ -19,7 +20,9 @@ namespace UtilityAI {
             }
         }
 
-        void Update() {
+        void Update()
+        {
+            UpdateTimeOfDay();
             UpdateContext();
             
             AIAction bestAction = null;
@@ -38,8 +41,20 @@ namespace UtilityAI {
             }
         }
 
-        void UpdateContext() {
+        private void UpdateTimeOfDay()
+        {
+            timeOfTheDay+= 0.01f;
+            // Simulate time passing
+        }
+
+        void UpdateContext()
+        {
             // update context with current state
+            Agent Agent = GetComponent<Agent>();
+            if (Agent != null)
+            {
+                context.SetData("Health",Agent.CurrentHealth );
+            }
         }
     }
 }

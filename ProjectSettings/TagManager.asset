@@ -13,6 +13,9 @@ TagManager:
   - Group B
   - Group C
   - Group D
+  - Home
+  - Camp A
+  - Camp B
   layers:
   - Default
   - TransparentFX

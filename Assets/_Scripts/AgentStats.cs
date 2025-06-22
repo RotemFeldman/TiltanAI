@@ -16,10 +16,14 @@ public class AgentStats
     [SerializeField] [Range(0, 1)] public float elementalResistance = 0f;
 
     [Header("Offense Stats")]
-    [SerializeField] [Min(0)] public float baseDamage = 10f;
+    [SerializeField] public float baseDamage = 10f;
+    [SerializeField] [Range(0, 1)] public float attackSuccessChance = 0.8f;
+    [SerializeField] [Range(0, 0.5f)] public float damageRandomization = 0.2f;
     [SerializeField] [Range(0, 1)] public float criticalChance = 0.05f;
-    [SerializeField] [Min(1)] public float criticalMultiplier = 1.5f;
+    [SerializeField] [Min(1f)] public float criticalDamageMultiplier = 1.5f;
     [SerializeField] [Min(0)] public float attackSpeed = 1f;
+    [SerializeField] [Min(0)] public float attackCooldown = 0.5f;
+    
 
     [Header("Movement Stats")]
     [SerializeField] [Min(0)] public float moveSpeed = 5f;
