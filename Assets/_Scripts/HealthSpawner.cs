@@ -6,7 +6,7 @@ public class HealthSpawner : MonoBehaviour
     public GameObject healthPrefab;
     public float spawnInterval = 5f;
     public Transform[] spawnPoints;
-    public int maxHealthItems = 3;
+    public int maxActiveHealthItems = 3;
     
     private float nextSpawnTime;
     
@@ -23,7 +23,7 @@ public class HealthSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
             
             // Only spawn if we have fewer than maxHealthItems
-            if (CountExistingHealthItems() < maxHealthItems)
+            if (CountExistingHealthItems() < maxActiveHealthItems)
             {
                 SpawnHealth();
             }
