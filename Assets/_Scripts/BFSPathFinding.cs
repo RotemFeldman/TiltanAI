@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class BFSPathFinding : IPathFindingStrategy
 {
-   // the function is virtual so it can be overridden in derived pathfinding strategies
+    // the function is virtual so it can be overridden in derived pathfinding strategies
     public virtual PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos)
+    {
+        return FindPath(grid, startPos, targetPos, false);
+    }
+
+    public virtual PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos, bool allowDiagonals)
     {
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
@@ -29,7 +34,7 @@ public class BFSPathFinding : IPathFindingStrategy
                 return new PathFindingResult(path, nodesProcessed);
             }
 
-            foreach (Node neighbor in grid.GetNeighbors(current))
+            foreach (Node neighbor in grid.GetNeighbors(current, allowDiagonals))
             {
                 if (!visited.Contains(neighbor) && neighbor.walkable)
                 {

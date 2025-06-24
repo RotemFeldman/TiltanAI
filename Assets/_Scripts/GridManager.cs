@@ -72,7 +72,14 @@ public class GridManager : MonoBehaviour
         return grid[x, y];
     }
 
+    // Original method - only orthogonal neighbors (for backward compatibility)
     public List<Node> GetNeighbors(Node node)
+    {
+        return GetNeighbors(node, false);
+    }
+
+    // Overloaded method with diagonal movement option
+    public List<Node> GetNeighbors(Node node, bool includeDiagonals)
     {
         List<Node> neighbors = new List<Node>();
 
@@ -80,9 +87,11 @@ public class GridManager : MonoBehaviour
         {
             for (int y = -1; y <= 1; y++)
             {
-                // Skip self and diagonals
+                // Skip self
                 if (x == 0 && y == 0) continue;
-                if (Mathf.Abs(x) + Mathf.Abs(y) > 1) continue;
+
+                // Skip diagonals if not allowed
+                if (!includeDiagonals && Mathf.Abs(x) + Mathf.Abs(y) > 1) continue;
 
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
@@ -153,7 +162,6 @@ public class GridManager : MonoBehaviour
         }
     }
 #endif
-
 
     
 }

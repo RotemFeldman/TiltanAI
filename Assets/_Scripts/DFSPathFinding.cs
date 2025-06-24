@@ -5,6 +5,11 @@ public class DFSPathFinding : IPathFindingStrategy
 {
     public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos)
     {
+        return FindPath(grid, startPos, targetPos, false);
+    }
+
+    public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos, bool allowDiagonals)
+    {
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
         int nodesProcessed = 0;
@@ -28,7 +33,7 @@ public class DFSPathFinding : IPathFindingStrategy
                 return new PathFindingResult(path, nodesProcessed);
             }
 
-            foreach (Node neighbor in grid.GetNeighbors(current))
+            foreach (Node neighbor in grid.GetNeighbors(current, allowDiagonals))
             {
                 if (!visited.Contains(neighbor) && neighbor.walkable)
                 {

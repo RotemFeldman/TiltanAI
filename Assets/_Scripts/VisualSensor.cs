@@ -24,7 +24,9 @@ public class VisualSensor : BaseSensor
             {
                 if (requiresLineOfSight)
                 {
-                    if (!Physics.Raycast(transform.position, directionToTarget, out RaycastHit rayHit, viewRadius))
+                    // Ignore the layer that your sensor is on
+                    int layerMask = ~(1 << gameObject.layer);
+                    if (!Physics.Raycast(transform.position, directionToTarget, out RaycastHit rayHit, viewRadius, layerMask))
                         continue;
 
                     if (rayHit.collider != hit)

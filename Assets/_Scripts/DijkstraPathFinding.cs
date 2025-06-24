@@ -5,6 +5,11 @@ public class DijkstraPathFinding : IPathFindingStrategy
 {
     public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos)
     {
+        return FindPath(grid, startPos, targetPos, false);
+    }
+
+    public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos, bool allowDiagonals)
+    {
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
         int nodesProcessed = 0;
@@ -45,8 +50,8 @@ public class DijkstraPathFinding : IPathFindingStrategy
 
             closedSet.Add(current);
 
-            // Check all neighbors
-            foreach (Node neighbor in grid.GetNeighbors(current))
+            // Check all neighbors (now with diagonal support)
+            foreach (Node neighbor in grid.GetNeighbors(current, allowDiagonals))
             {
                 if (!neighbor.walkable || closedSet.Contains(neighbor))
                     continue;
@@ -84,7 +89,7 @@ public class DijkstraPathFinding : IPathFindingStrategy
             return 1.4142f; // √2 for diagonal movement
         }
 
-        // Otherwise stright line distance is one!
+        // Otherwise straight line distance is one!
         return 1;
     }
 }

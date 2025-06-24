@@ -5,6 +5,11 @@ public class AStarPathFinding : IPathFindingStrategy
 {
     public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos)
     {
+        return FindPath(grid, startPos, targetPos, false);
+    }
+
+    public PathFindingResult FindPath(GridManager grid, Vector3 startPos, Vector3 targetPos, bool allowDiagonals)
+    {
         Node startNode = grid.GetNodeFromWorldPoint(startPos);
         Node targetNode = grid.GetNodeFromWorldPoint(targetPos);
         int nodesProcessed = 0;
@@ -20,7 +25,7 @@ public class AStarPathFinding : IPathFindingStrategy
         // Initialize start node
         openSet.Add(startNode);
         gCost[startNode] = 0;
-        fCost[startNode] = CalculateHeuristic(startNode, targetNode);
+        fCost[startNode] = CalculateHeuristic(startNode, targetNode, allowDiagonals);
 
         while (openSet.Count > 0)
         {
@@ -36,7 +41,7 @@ public class AStarPathFinding : IPathFindingStrategy
             openSet.Remove(current);
             closedSet.Add(current);
 
-            foreach (Node neighbor in grid.GetNeighbors(current))
+            foreach (Node neighbor in grid.GetNeighbors(current, allowDiagonals))
             {
                 if (!neighbor.walkable || closedSet.Contains(neighbor))
                     continue;
@@ -50,7 +55,7 @@ public class AStarPathFinding : IPathFindingStrategy
                 {
                     parentMap[neighbor] = current;
                     gCost[neighbor] = tentativeGCost;
-                    fCost[neighbor] = gCost[neighbor] + CalculateHeuristic(neighbor, targetNode);
+                    fCost[neighbor] = gCost[neighbor] + CalculateHeuristic(neighbor, targetNode, allowDiagonals);
 
                     if (!openSet.Contains(neighbor))
                     {
@@ -63,14 +68,21 @@ public class AStarPathFinding : IPathFindingStrategy
         return new PathFindingResult(new List<Node>(), nodesProcessed);
     }
 
-    private float CalculateHeuristic(Node node, Node targetNode)
+    private float CalculateHeuristic(Node node, Node targetNode, bool allowDiagonals)
     {
-        // Manhattan distance heuristic
         float dx = Mathf.Abs(node.gridX - targetNode.gridX);
         float dy = Mathf.Abs(node.gridY - targetNode.gridY);
         
-        // Using Manhattan distance with a small diagonal bias
-        return dx + dy;
+        if (allowDiagonals)
+        {
+            // Octile distance for diagonal movement
+            return Mathf.Max(dx, dy) + (1.4142f - 1) * Mathf.Min(dx, dy);
+        }
+        else
+        {
+            // Manhattan distance for orthogonal movement only
+            return dx + dy;
+        }
     }
 
     private float CalculateDistance(Node nodeA, Node nodeB)

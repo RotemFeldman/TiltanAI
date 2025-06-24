@@ -13,6 +13,7 @@ TagManager:
   - Group B
   - Group C
   - Group D
+  - Agent
   layers:
   - Default
   - TransparentFX
