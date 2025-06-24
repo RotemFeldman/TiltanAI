@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UtilityAI;
 
 [ExecuteInEditMode] // This makes certain functions run in editor mode
 public class Agent : MonoBehaviour
@@ -26,6 +27,7 @@ public class Agent : MonoBehaviour
 
 
     private AgentGroup lastGroup; // To track changes
+    public Sensor sensor; // To track sensor position
 
 
 

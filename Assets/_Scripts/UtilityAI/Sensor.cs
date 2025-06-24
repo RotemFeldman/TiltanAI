@@ -48,6 +48,7 @@ namespace UtilityAI {
             Vector3 currentPosition = transform.position;
 
             foreach (Transform potentialTarget in detectedObjects) {
+                if (potentialTarget == null) continue;
                 if (potentialTarget.CompareTag(tag)) {
                     Vector3 directionToTarget = potentialTarget.position - currentPosition;
                     float dSqrToTarget = directionToTarget.sqrMagnitude;

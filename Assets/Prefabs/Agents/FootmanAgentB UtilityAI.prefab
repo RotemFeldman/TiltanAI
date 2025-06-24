@@ -825,9 +825,11 @@ GameObject:
   - component: {fileID: 6252616208276459247}
   - component: {fileID: 6995029522377578242}
   - component: {fileID: 7644890356958837916}
-  - component: {fileID: 183966963082724398}
-  - component: {fileID: 5088188918930577230}
   - component: {fileID: 7542395975394022754}
+  - component: {fileID: 91175769443648782}
+  - component: {fileID: 5555860339796227158}
+  - component: {fileID: 7583733789507099183}
+  - component: {fileID: 2070158029783999623}
   m_Layer: 8
   m_Name: FootmanAgentB UtilityAI
   m_TagString: Group B
@@ -932,59 +934,8 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 3821177195630697689}
   currentHealth: 100
   isRegeneratingHealth: 0
+  sensor: {fileID: 0}
   CurrentHunger: 1
---- !u!114 &183966963082724398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7998691438705622609}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2955c52fcd44652b1f159da16ef357c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateFrequency: 0.2
-  detectionLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  detectableTags:
-  - Group A
-  - Group C
-  - Group D
-  showDebugVisuals: 1
-  debugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  viewRadius: 10
-  viewAngle: 90
-  requiresLineOfSight: 1
-  minVisualIntensity: 0.1
---- !u!114 &5088188918930577230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7998691438705622609}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ab750d29854d239b44905c650cdb16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateFrequency: 0.2
-  detectionLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  detectableTags:
-  - Group A
-  - Group C
-  - Group D
-  showDebugVisuals: 1
-  debugColor: {r: 0.2225583, g: 0.5276081, b: 0.7610062, a: 1}
-  hearingRadius: 6
-  minAudioIntensity: 0.1
-  useDirectionalHearing: 1
-  directionalityFactor: 0.5
 --- !u!65 &7542395975394022754
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1006,6 +957,73 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2, y: 2, z: 1.2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!135 &91175769443648782
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998691438705622609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5555860339796227158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998691438705622609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 050fd9ee263947e99c5079dcae3b7aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 22.06
+  targetTags: []
+--- !u!114 &7583733789507099183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998691438705622609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa5bbd2baab4720842f1b3d302fe5f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - {fileID: 11400000, guid: 68bfeece41a344744930c7efdc74aac9, type: 2}
+  - {fileID: 11400000, guid: 1fced3edcef3a734abe8315726a6f308, type: 2}
+  - {fileID: 11400000, guid: ffa38f4c78047ed44a0823f92ae3ce65, type: 2}
+  - {fileID: 11400000, guid: c0c712a8d674a9e4e90aae13721ebf8f, type: 2}
+--- !u!114 &2070158029783999623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998691438705622609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 050fd9ee263947e99c5079dcae3b7aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 22.06
+  targetTags:
+  - Group A
 --- !u!1 &8106132553742268300
 GameObject:
   m_ObjectHideFlags: 0

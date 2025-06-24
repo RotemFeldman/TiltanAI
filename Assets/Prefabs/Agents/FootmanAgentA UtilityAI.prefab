@@ -309,7 +309,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 22.06
-  targetTags: []
+  targetTags:
+  - Group B
 --- !u!114 &6371009686869921141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +327,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68bfeece41a344744930c7efdc74aac9, type: 2}
   - {fileID: 11400000, guid: 1fced3edcef3a734abe8315726a6f308, type: 2}
   - {fileID: 11400000, guid: 7b0248229d7adcb4395fb5cdf0f30226, type: 2}
+  - {fileID: 11400000, guid: c0c712a8d674a9e4e90aae13721ebf8f, type: 2}
 --- !u!65 &7676142433030246701
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -401,6 +403,7 @@ MonoBehaviour:
   skinnedMeshRenderer: {fileID: 2236657462374254390}
   currentHealth: 100
   isRegeneratingHealth: 0
+  sensor: {fileID: 0}
   CurrentHunger: 1
 --- !u!1 &2457221232880887202
 GameObject:
