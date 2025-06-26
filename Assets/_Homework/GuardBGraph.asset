@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
-  m_Name: InvaderBehaviorGraph Blackboard
+  m_Name: GuardBGraph Blackboard
   m_EditorClassIdentifier: 
   VersionTimestamp: 638863724694586180
   AssetID:
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b27bb6d9a2c8d540a10dff10acc543e, type: 3}
-  m_Name: InvaderBehaviorGraph Debug Info
+  m_Name: GuardBGraph Debug Info
   m_EditorClassIdentifier: 
   m_CodeBreakPointsList: []
 --- !u!114 &-6697729565407067404
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
-  m_Name: InvaderBehaviorGraph Blackboard
+  m_Name: GuardBGraph Blackboard
   m_EditorClassIdentifier: 
   AssetID:
     m_Value0: 17598422096395974004
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bad8f2220607dac4db5082ff333fafb8, type: 3}
-  m_Name: InvaderBehaviorGraph
+  m_Name: GuardBGraph
   m_EditorClassIdentifier: 
   Blackboard: {fileID: -6697729565407067404}
   m_Description: 
@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
-  m_Name: InvaderBehaviorGraph
+  m_Name: GuardBGraph
   m_EditorClassIdentifier: 
   Graphs:
   - rid: 3088989412360716374
@@ -1461,7 +1461,7 @@ MonoBehaviour:
         AuthoringAssetID:
           m_Value0: 17598422096395974004
           m_Value1: 10856358975706947673
-        m_DebugInfo: {fileID: 0}
+        m_DebugInfo: {fileID: -7445165471458661531}
         BlackboardReference:
           rid: 3088989412360716375
         BlackboardGroupReferences: []

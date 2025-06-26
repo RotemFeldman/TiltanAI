@@ -98,7 +98,27 @@ public class GridManager : MonoBehaviour
 
                 if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                 {
-                    neighbors.Add(grid[checkX, checkY]);
+                    Node neighbor = grid[checkX, checkY];
+                    
+                    // For diagonal movement, check if both orthogonal paths are walkable
+                    if (includeDiagonals && Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1)
+                    {
+                        // This is a diagonal neighbor
+                        // Check the two orthogonal nodes that connect to this diagonal
+                        Node horizontalNode = grid[node.gridX + x, node.gridY];
+                        Node verticalNode = grid[node.gridX, node.gridY + y];
+                        
+                        // Only add diagonal neighbor if both orthogonal paths are walkable
+                        if (horizontalNode.walkable && verticalNode.walkable)
+                        {
+                            neighbors.Add(neighbor);
+                        }
+                    }
+                    else
+                    {
+                        // This is an orthogonal neighbor, add normally
+                        neighbors.Add(neighbor);
+                    }
                 }
             }
         }
