@@ -33,7 +33,7 @@ public class VillagerCollectIronIngotAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.CollectIronIngot);
+            targetAgent.SetCurrentAction(VillagerActions.CollectIronIngot);
             actionAssigned = true;
             
             Debug.Log($"[CollectIronIngot] Assigned CollectIronIngot action to {targetAgent.GetName()}");

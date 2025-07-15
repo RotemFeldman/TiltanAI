@@ -30,7 +30,7 @@ public class VillagerIdleAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.Idle);
+            targetAgent.SetCurrentAction(VillagerActions.Idle);
             actionAssigned = true;
             
             Debug.Log($"[Idle] Assigned Idle action to {targetAgent.GetName()}");

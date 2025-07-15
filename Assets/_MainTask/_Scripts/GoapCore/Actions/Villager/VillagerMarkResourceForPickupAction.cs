@@ -32,7 +32,7 @@ public class VillagerMarkResourceForPickupAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.MarkResourceForPickup);
+            targetAgent.SetCurrentAction(VillagerActions.MarkResourceForPickup);
             actionAssigned = true;
             
             Debug.Log($"[MarkResourceForPickup] Assigned MarkResourceForPickup action to {targetAgent.GetName()}");

@@ -34,7 +34,7 @@ public class VillagerCarryResourceToBuildAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.CarryResourceToBuild);
+            targetAgent.SetCurrentAction(VillagerActions.CarryResourceToBuild);
             actionAssigned = true;
             
             Debug.Log($"[CarryResourceToBuild] Assigned CarryResourceToBuild action to {targetAgent.GetName()}");

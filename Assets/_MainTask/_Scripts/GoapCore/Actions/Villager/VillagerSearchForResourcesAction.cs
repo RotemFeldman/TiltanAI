@@ -32,7 +32,7 @@ public class VillagerSearchForResourcesAction : GoapAction
         if (targetAgent != null && !actionAssigned)
         {
             // Set the agent's current action enum
-            targetAgent.SetCurrentAction(AgentActions.SearchForResources);
+            targetAgent.SetCurrentAction(VillagerActions.SearchForResources);
             actionAssigned = true;
             
             Debug.Log($"[SearchForResources] Assigned SearchForResources action to {targetAgent.GetName()}");

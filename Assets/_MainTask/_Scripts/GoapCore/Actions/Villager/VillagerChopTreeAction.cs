@@ -28,7 +28,7 @@ public class VillagerChopTreeAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.ChopTree);
+            targetAgent.SetCurrentAction(VillagerActions.ChopTree);
             actionAssigned = true;
             
             Debug.Log($"[ChopTree] Assigned ChopTree action to {targetAgent.GetName()}");

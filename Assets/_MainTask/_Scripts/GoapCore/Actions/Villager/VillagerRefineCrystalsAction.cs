@@ -34,7 +34,7 @@ public class VillagerRefineCrystalsAction : GoapAction
     {
         if (targetAgent != null && !actionAssigned)
         {
-            targetAgent.SetCurrentAction(AgentActions.RefineCrystals);
+            targetAgent.SetCurrentAction(VillagerActions.RefineCrystals);
             actionAssigned = true;
             
             Debug.Log($"[RefineCrystals] Assigned RefineCrystals action to {targetAgent.GetName()}");

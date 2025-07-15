@@ -11,7 +11,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
         public string agentName = "Villager";
         
         [Header("Current State")]
-        [SerializeField] private AgentActions currentAction = AgentActions.Idle;
+        [SerializeField] private VillagerActions currentAction = VillagerActions.Idle;
         [SerializeField] private bool actionComplete = false;
         
         private IGoapAction assignedGoapAction;
@@ -43,7 +43,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
 
         public bool IsAvailable()
         {
-            return assignedGoapAction == null && currentAction == AgentActions.Idle;
+            return assignedGoapAction == null && currentAction == VillagerActions.Idle;
         }
 
         public bool CanPerformAction(IGoapAction action)
@@ -102,7 +102,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
         }
         
         // Methods for the behavior graph to interact with
-        public void SetCurrentAction(AgentActions action)
+        public void SetCurrentAction(VillagerActions action)
         {
             currentAction = action;
             actionComplete = false;
@@ -110,7 +110,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
             Debug.Log($"[{agentName}] Current action set to: {action}");
         }
         
-        public AgentActions GetCurrentAction()
+        public VillagerActions GetCurrentAction()
         {
             return currentAction;
         }
@@ -128,7 +128,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
             Debug.Log($"[{agentName}] COMPLETED: {currentAction}");
             
             // Reset to idle
-            currentAction = AgentActions.Idle;
+            currentAction = VillagerActions.Idle;
             
             // Reset the GOAP action
             if (assignedGoapAction != null)
@@ -149,7 +149,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
             Gizmos.DrawWireSphere(transform.position,10f);
             
             // Draw current action status
-            if (currentAction != AgentActions.Idle)
+            if (currentAction != VillagerActions.Idle)
             {
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireCube(transform.position + Vector3.up * 2f, Vector3.one * 0.5f);

@@ -1,4 +1,7 @@
-﻿public enum AgentActions
+﻿using Unity.Behavior;
+
+[BlackboardEnum]
+public enum VillagerActions
 {
 	Idle,
 	SearchForResources,
@@ -9,6 +12,7 @@
 	CarryResourceToBuild
 }
 
+[BlackboardEnum]
 public enum MessengerActions
 {
 	Idle,
@@ -17,6 +21,7 @@ public enum MessengerActions
 	FlyToBuildLocation,
 }
 
+[BlackboardEnum]
 public enum MageActions
 {
 	Idle,
@@ -24,4 +29,12 @@ public enum MageActions
 	BuildEnchantedStaff,
 	BuildRunedShield,
 	ConnectArtifacts
+}
+
+[BlackboardEnum]
+public enum AgentType
+{
+	Villager,
+	Messenger,
+	Mage
 }
