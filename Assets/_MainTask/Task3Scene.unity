@@ -1093,7 +1093,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &104129145
 Transform:
   m_ObjectHideFlags: 0
@@ -1444,7 +1444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2807449429036539767, guid: f0c16f0ea935ea64297ca1d4d55d9746, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.16
+      value: 6.38
       objectReference: {fileID: 0}
     - target: {fileID: 2807449429036539767, guid: f0c16f0ea935ea64297ca1d4d55d9746, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1452,7 +1452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2807449429036539767, guid: f0c16f0ea935ea64297ca1d4d55d9746, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.41
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 2807449429036539767, guid: f0c16f0ea935ea64297ca1d4d55d9746, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14378,12 +14378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49caa0da7e6e544479ba6d4fde7c3c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseDamage: 0
-  attackSuccessChance: 0
-  damageRandomization: 0
-  criticalChance: 0
-  criticalDamageMultiplier: 0
-  attackCooldown: 0
 --- !u!65 &6347646568015428725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14417,12 +14411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa5bbd2baab4720842f1b3d302fe5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 68bfeece41a344744930c7efdc74aac9, type: 2}
-  - {fileID: 11400000, guid: 1fced3edcef3a734abe8315726a6f308, type: 2}
-  - {fileID: 11400000, guid: 7b0248229d7adcb4395fb5cdf0f30226, type: 2}
-  - {fileID: 11400000, guid: c0c712a8d674a9e4e90aae13721ebf8f, type: 2}
-  timeOfTheDay: 0
 --- !u!114 &6347646568015428727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14435,10 +14423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050fd9ee263947e99c5079dcae3b7aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 22.06
-  targetTags:
-  - Group B
-  sphereCollider: {fileID: 0}
 --- !u!135 &6347646568015428728
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14533,10 +14517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050fd9ee263947e99c5079dcae3b7aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 22.06
-  targetTags:
-  - Group A
-  sphereCollider: {fileID: 0}
 --- !u!114 &7828060564967507757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14549,12 +14529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa5bbd2baab4720842f1b3d302fe5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 68bfeece41a344744930c7efdc74aac9, type: 2}
-  - {fileID: 11400000, guid: 1fced3edcef3a734abe8315726a6f308, type: 2}
-  - {fileID: 11400000, guid: ffa38f4c78047ed44a0823f92ae3ce65, type: 2}
-  - {fileID: 11400000, guid: c0c712a8d674a9e4e90aae13721ebf8f, type: 2}
-  timeOfTheDay: 0
 --- !u!114 &7828060564967507758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14567,9 +14541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050fd9ee263947e99c5079dcae3b7aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 22.06
-  targetTags: []
-  sphereCollider: {fileID: 0}
 --- !u!135 &7828060564967507759
 SphereCollider:
   m_ObjectHideFlags: 0
