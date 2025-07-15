@@ -7,7 +7,7 @@ using System.Linq;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Visual Sense", story: "[Self] checks for visual detections with [TargetTag]", category: "Action", id: "950ff92ii16667ghh8001g8i3g17661h")]
-public partial class VisualSenseAction : Action
+public partial class VisualSenseAction : Unity.Behavior.Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<string> TargetTag;

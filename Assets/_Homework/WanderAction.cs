@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Wander", story: "[Agent] wander around using [PathfindingStrategy]", category: "Action", id: "710bb58ef82223cbd4667c4e9c73227c")]
-public partial class WanderAction : Action
+public partial class WanderAction : Unity.Behavior.Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     

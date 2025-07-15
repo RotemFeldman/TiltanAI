@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Patrol", story: "[Agent] patrol between [Waypoints] using pathfinding", category: "Action", id: "820cc69fg93334dce5778d5f0d84338d")]
-public partial class PatrolAction : Action
+public partial class PatrolAction : Unity.Behavior.Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     

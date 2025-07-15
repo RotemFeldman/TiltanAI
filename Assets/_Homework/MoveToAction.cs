@@ -6,7 +6,7 @@ using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "MoveTo", story: "[Agent] Move To [Location] using [PathfindingStrategy]", category: "Action", id: "610aa47df71112bac3556b3d8b62116b")]
-public partial class MoveToAction : Action
+public partial class MoveToAction : Unity.Behavior.Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<Vector3> Location;

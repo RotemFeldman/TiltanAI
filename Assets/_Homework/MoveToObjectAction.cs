@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Move To Object", story: "[Agent] Move To [TargetObject] using [PathfindingStrategy]", category: "Action", id: "710bb58ef93334dce5778d5f1e84449f")]
-public partial class MoveToObjectAction : Action
+public partial class MoveToObjectAction : Unity.Behavior.Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<GameObject> TargetObject;
