@@ -26,7 +26,7 @@ public class VillagerAgentBehavior : MonoBehaviour
     private void Update()
     {
         BehaviorGraph.BlackboardReference.GetVariable("VillagerActions", out var Action);
-        if (Action.ObjectValue.ToString() == VillagerActions.SearchForResources.ToString())
+        if (Action.ObjectValue.ToString() == nameof(VillagerActions.SearchForResources))
         {
             if (!_hasSearchDestination)
             {
@@ -38,11 +38,18 @@ public class VillagerAgentBehavior : MonoBehaviour
                 SearchForResources();
             }
         }
-        else if (Action.ObjectValue.ToString() == VillagerActions.ChopTree.ToString())
+        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.ChopTree))
         {
             HasReachedResourceDestination();
         }
-   
+        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.RefineCrystals))
+        {
+            HasReachedResourceDestination();
+        }
+        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.CollectIronIngot))
+        {
+            HasReachedResourceDestination();
+        }
     }
 
     private void SearchForResources()
@@ -60,7 +67,12 @@ public class VillagerAgentBehavior : MonoBehaviour
                     BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.ChopTree);
                     BehaviorGraph.BlackboardReference.SetVariableValue("resourceObj", nearestResource);
                 }
- 
+
+                if (nearestResource.layer == 12 || nearestResource.layer == 13)
+                {
+                    BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.TaskCompleted);
+                }
+
             }
         }
     }
@@ -118,7 +130,7 @@ public class VillagerAgentBehavior : MonoBehaviour
         float distanceToDestination = Vector3.Distance(transform.position, _resourceDestination);
         if (distanceToDestination < 13f)
         {
-            Debug.Log("12312313");
+            //Debug.Log("12312313");
             BehaviorGraph.BlackboardReference.SetVariableValue("handelingMaterial", true);
             BehaviorGraph.BlackboardReference.SetVariableValue("reachedGatheredDist", true);
         }

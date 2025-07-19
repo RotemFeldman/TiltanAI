@@ -16,6 +16,9 @@ TagManager:
   - Agent
   - Camp A
   - Camp B
+  - Crystals
+  - IronIngot
+  - ChopedTree
   layers:
   - Default
   - TransparentFX
@@ -29,8 +32,8 @@ TagManager:
   - Unwalkable
   - NavGrid
   - 'Oak Logs '
-  - 
-  - 
+  - Iron Ingot
+  - Crystals
   - 
   - 
   - 

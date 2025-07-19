@@ -9,7 +9,8 @@ public enum VillagerActions
 	RefineCrystals,
 	CollectIronIngot,
 	MarkResourceForPickup,
-	CarryResourceToBuild
+	CarryResourceToBuild,
+	TaskCompleted
 }
 
 [BlackboardEnum]
