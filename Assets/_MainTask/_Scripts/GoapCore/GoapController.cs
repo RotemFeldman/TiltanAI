@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _MainTask._Scripts.GoapCore.Agents;
 using UnityEngine;
 
 public class GoapController : MonoBehaviour
 {
+    public static GoapController Instance;
+    
     [Header("GOAP Settings")]
     public float planningInterval = 1f;
     public bool debugMode = true;
     
-    
     private IGoapPlanner planner;
-    private IGoapState worldState;
+    private GoapWorldStateManager stateManager;
     private List<IGoapGoal> goals;
     private List<IGoapAgent> agents;
     private Dictionary<IGoapAgent, IGoapAction> agentActions;
@@ -20,10 +22,47 @@ public class GoapController : MonoBehaviour
     private float lastPlanTime;
     private float lastLogTime;
     
+    public void RegisterItemLocation(ItemType itemType, Vector3 position)
+    {
+        stateManager.RegisterItemLocation(itemType, position);
+    }
+
+    public void ReserveItemLocation(ItemType itemType, Vector3 position, string agentName)
+    {
+        stateManager.ReserveItemLocation(itemType, position, agentName);
+    }
+
+    public void RemoveItemLocation(ItemType itemType, Vector3 position)
+    {
+        stateManager.RemoveItemLocation(itemType, position);
+    }
+
+    public List<ItemLocation> GetAvailableItemLocations(ItemType itemType)
+    {
+        return stateManager.GetAvailableItemLocations(itemType);
+    }
+    
+    public void CollectItems(ItemType itemType, int amount = 1)
+    {
+        stateManager.CollectItems(itemType, amount);
+    }
+    
+    public void RemoveItems(ItemType itemType, int amount = 1)
+    {
+        stateManager.RemoveItems(itemType, amount);
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         InitializeGoap();
-        InitializeState();
     }
 
     void Update()
@@ -47,7 +86,7 @@ public class GoapController : MonoBehaviour
     void InitializeGoap()
     {
         planner = new GoapPlanner();
-        worldState = new GoapState();
+        stateManager = new GoapWorldStateManager();
         goals = new List<IGoapGoal>();
         agents = new List<IGoapAgent>();
         agentActions = new Dictionary<IGoapAgent, IGoapAction>();
@@ -56,41 +95,19 @@ public class GoapController : MonoBehaviour
         var goapAgents = FindObjectsOfType<MonoBehaviour>().OfType<IGoapAgent>();
         agents.AddRange(goapAgents);
         
-        // Create test goal
-        CreateTestGoal();
-        
         Debug.Log($"[GOAP] Initialized - Found {agents.Count} agents");
-    }
-    
-    private void InitializeState()
-    {
-        worldState.SetState("OakLogs",0);
-        worldState.SetState("IronIngots",0);
-        worldState.SetState("CrystalShards",0);
-    }
-    
-    void CreateTestGoal()
-    {
-        var testGoal = new GoapGoal("TestGoal", 1f);
-        testGoal.AddCondition("TestCompleted", true);
-        goals.Add(testGoal);
-        currentGoal = testGoal;
     }
     
     void UpdateWorldState()
     {
-        if (worldState == null) return;
+        if (stateManager == null) return;
         
         int availableVillagers = agents.Count(a => a.IsAvailable() && !agentActions.ContainsKey(a) && a is TestVillagerAgent);
         int availableMessengers = agents.Count(a => a.IsAvailable() && !agentActions.ContainsKey(a) && a is TestMessengerAgent);
         int availableMages = agents.Count(a => a.IsAvailable() && !agentActions.ContainsKey(a) && a is TestMageAgent);
     
-        // Set type-specific availability
-        worldState.SetState("AvailableVillagers", availableVillagers);
-        worldState.SetState("AvailableMessengers", availableMessengers);
-        worldState.SetState("AvailableMages", availableMages);
-        
-
+        // Update agent availability through state manager
+        stateManager.UpdateAgentAvailability(availableVillagers, availableMessengers, availableMages);
     }
     
     void UpdateAgentActions()
@@ -124,6 +141,7 @@ public class GoapController : MonoBehaviour
         if (currentPlan == null || currentPlan.Count == 0)
             return;
         
+        var worldState = stateManager.GetWorldState();
         var availableAgents = agents.Where(a => a.IsAvailable() && !agentActions.ContainsKey(a)).ToList();
         var unassignedActions = currentPlan.Where(a => !agentActions.ContainsValue(a) && a.CanExecute(worldState)).ToList();
         
@@ -143,6 +161,7 @@ public class GoapController : MonoBehaviour
     
     void ExecutePlanning()
     {
+        var worldState = stateManager.GetWorldState();
         if (currentGoal == null || currentGoal.IsAchieved(worldState))
         {
             Debug.Log("[GOAP] Goal achieved!");
@@ -254,6 +273,8 @@ public class GoapController : MonoBehaviour
     private void CreateNewPlan()
     {
         if (goals.Count == 0) return;
+        
+        var worldState = stateManager.GetWorldState();
     
         // Find the highest priority goal that isn't achieved
         IGoapGoal targetGoal = null;
@@ -300,6 +321,4 @@ public class GoapController : MonoBehaviour
             Debug.Log($"[GOAP] Failed to create plan for goal '{targetGoal.GetName()}'");
         }
     }
-
-
 }

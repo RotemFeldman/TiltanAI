@@ -39,3 +39,11 @@ public enum AgentType
 	Messenger,
 	Mage
 }
+
+[BlackboardEnum]
+public enum ItemType
+{
+	IronIngot,
+	CrystalShard,
+	TreeLog
+}
