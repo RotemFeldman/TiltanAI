@@ -13,6 +13,7 @@ namespace _MainTask._Scripts.GoapCore.Agents
         [Header("Current State")]
         [SerializeField] private VillagerActions currentAction = VillagerActions.Idle;
         [SerializeField] private bool actionComplete = false;
+        [SerializeField] private Vector3 carryResourceLocation;
         
         private IGoapAction assignedGoapAction;
         private bool isActionComplete;
@@ -39,6 +40,11 @@ namespace _MainTask._Scripts.GoapCore.Agents
         public string GetName()
         {
             return agentName;
+        }
+
+        public Vector3 GetCarryResourceLocation()
+        {
+            return carryResourceLocation;
         }
 
         public bool IsAvailable()

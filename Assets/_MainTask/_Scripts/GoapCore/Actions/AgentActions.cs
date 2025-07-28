@@ -17,9 +17,8 @@ public enum VillagerActions
 public enum MessengerActions
 {
 	Idle,
-	FlyToPickupLocation,
-	PickupResource,
-	FlyToBuildLocation,
+	CarryResourceToBuild,
+	TaskCompleted
 }
 
 [BlackboardEnum]

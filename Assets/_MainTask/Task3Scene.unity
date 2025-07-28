@@ -6416,11 +6416,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 43825177464977680, guid: e289bf5debb17f6459818c207d781953, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4203487331839533559, guid: e289bf5debb17f6459818c207d781953, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
       propertyPath: m_Name
@@ -6428,7 +6428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4661435515762813124, guid: e289bf5debb17f6459818c207d781953, type: 3}
       propertyPath: m_RootOrder
@@ -12495,6 +12495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_05
       objectReference: {fileID: 0}
+    - target: {fileID: 1576488453971893466, guid: a778b631c6253a04899cb31bad047c81, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12666,7 +12670,7 @@ MonoBehaviour:
   searchRadius: 10
   resourceLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 14336
   searchInterval: 0.5
   groundLayer:
     serializedVersion: 2
@@ -14583,7 +14587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328657844807866159, guid: e2474591353220544bdd3e5d8e531b00, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.69
+      value: 26.61
       objectReference: {fileID: 0}
     - target: {fileID: 8328657844807866159, guid: e2474591353220544bdd3e5d8e531b00, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14591,7 +14595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328657844807866159, guid: e2474591353220544bdd3e5d8e531b00, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.78
+      value: 14.73
       objectReference: {fileID: 0}
     - target: {fileID: 8328657844807866159, guid: e2474591353220544bdd3e5d8e531b00, type: 3}
       propertyPath: m_LocalRotation.w

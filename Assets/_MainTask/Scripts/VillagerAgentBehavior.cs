@@ -38,18 +38,6 @@ public class VillagerAgentBehavior : MonoBehaviour
                 SearchForResources();
             }
         }
-        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.ChopTree))
-        {
-            HasReachedResourceDestination();
-        }
-        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.RefineCrystals))
-        {
-            HasReachedResourceDestination();
-        }
-        else if (Action.ObjectValue.ToString() == nameof(VillagerActions.CollectIronIngot))
-        {
-            HasReachedResourceDestination();
-        }
     }
 
     private void SearchForResources()
@@ -67,12 +55,16 @@ public class VillagerAgentBehavior : MonoBehaviour
                     BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.ChopTree);
                     BehaviorGraph.BlackboardReference.SetVariableValue("resourceObj", nearestResource);
                 }
-
-                if (nearestResource.layer == 12 || nearestResource.layer == 13)
+                if (nearestResource.layer == 12)
                 {
-                    BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.TaskCompleted);
+                    BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.CollectIronIngot);
+                    BehaviorGraph.BlackboardReference.SetVariableValue("resourceObj", nearestResource);
                 }
-
+                if (nearestResource.layer == 13)
+                {
+                    BehaviorGraph.BlackboardReference.SetVariableValue("VillagerActions", VillagerActions.RefineCrystals);
+                    BehaviorGraph.BlackboardReference.SetVariableValue("resourceObj", nearestResource);
+                }
             }
         }
     }
@@ -125,7 +117,7 @@ public class VillagerAgentBehavior : MonoBehaviour
             BehaviorGraph.BlackboardReference.SetVariableValue("hasSearchDestination", _hasSearchDestination);
         }
     }
-    private void HasReachedResourceDestination() //
+    private void HasReachedResourceDestination() 
     {
         float distanceToDestination = Vector3.Distance(transform.position, _resourceDestination);
         if (distanceToDestination < 13f)
