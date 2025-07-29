@@ -7,7 +7,7 @@ namespace GOAP.Agents
 		public bool IsAvailable => !TaskComplete;
 		public bool TaskComplete {get; private set;} = false;
 		
-		public void CompleteTask()
+		public virtual void CompleteTask()
 		{
 			TaskComplete = true;
 		}
