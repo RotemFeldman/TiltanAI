@@ -1,5 +1,5 @@
 using System;
-using _MainTask._Scripts.GoapCore.Agents;
+using GOAP.Agents;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,7 +14,7 @@ public partial class CarryResourceAction : Action
     [SerializeReference] public BlackboardVariable<Vector3> Location;
     [SerializeReference] public BlackboardVariable<Vector3> BulidLocation;
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
-    private IGoapAgent _agent;
+    private SimpleAgent _agent;
 
     protected override Status OnStart()
     {
@@ -24,21 +24,21 @@ public partial class CarryResourceAction : Action
                 _agent = Agent.Value.GetComponent<VillagerAgent>();
                 if (_agent is VillagerAgent a)
                 {
-                    Location = (BlackboardVariable<Vector3>) a.GetCarryResourceLocation();
+                    //Location = (BlackboardVariable<Vector3>) a.GetCarryResourceLocation();
                 }
                 break;
             case AgentType.Mage:
                 _agent = Agent.Value.GetComponent<VillagerAgent>();
                 if (_agent is VillagerAgent b)
                 {
-                    Location = (BlackboardVariable<Vector3>) b.GetCarryResourceLocation();
+                    //Location = (BlackboardVariable<Vector3>) b.GetCarryResourceLocation();
                 }
                 break;
             case AgentType.Messenger:
                 _agent = Agent.Value.GetComponent<VillagerAgent>();
                 if (_agent is VillagerAgent c)
                 {
-                    Location = (BlackboardVariable<Vector3>) c.GetCarryResourceLocation();
+                  //  Location = (BlackboardVariable<Vector3>) c.GetCarryResourceLocation();
                 }
                 break;
         }

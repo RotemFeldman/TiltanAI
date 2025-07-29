@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
-using _MainTask._Scripts;
-using GOAP.Interfaces;
+﻿using GOAP.Interfaces;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace GOAP.Agents
 {
-	public class VillagerAgent : SimpleAgent , IResourceCarrier
+	public class MessengerAgent : SimpleAgent , IResourceCarrier
 	{
 		public ResourceType CurrentResource { get; private set; }
 		
@@ -22,7 +16,7 @@ namespace GOAP.Agents
 		{
 			CurrentResource = ResourceType.None;
 		}
-
+		
 		public void StartDelivaryTask()
 		{
 			Debug.Log("delivery task started");
