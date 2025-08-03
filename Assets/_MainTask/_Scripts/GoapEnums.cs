@@ -47,3 +47,13 @@ public enum ResourceType
 	CrystalShard,
 	IronIngot,
 }
+
+[BlackboardEnum]
+public enum EnemyAttackerActions
+{
+	SearchForTarget,
+	ChaseTarget,
+	AttackAgent,
+	Retreat,
+	GetHealingPotion
+}
