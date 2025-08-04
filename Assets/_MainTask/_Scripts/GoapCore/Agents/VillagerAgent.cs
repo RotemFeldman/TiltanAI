@@ -75,24 +75,24 @@ namespace GOAP.Agents
 			actions = new();
 
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new IdleStrategy(5))
+				.WithStrategy(new IdleStrategy<VillagerAgent>(this))
 				.WithCost(15)
 				.AddEffect(beliefs[NOTHING])
 				.Build());
 
 			// Search actions
 			actions.Add(new AgentAction.Builder("Search For Oak Logs")
-				.WithStrategy(new WanderStrategy(navMeshAgent, 20))
+				.WithStrategy(new VillagerSearchForResourcesStrategy(this))
 				.AddEffect(beliefs[ENOUGH_OAK_LOGS_FOUND])
 				.Build());
 				
 			actions.Add(new AgentAction.Builder("Search For Crystals")
-				.WithStrategy(new WanderStrategy(navMeshAgent, 20))
+				.WithStrategy(new VillagerSearchForResourcesStrategy(this))
 				.AddEffect(beliefs[ENOUGH_CRYSTALS_FOUND])
 				.Build());
 				
 			actions.Add(new AgentAction.Builder("Search For Iron")
-				.WithStrategy(new WanderStrategy(navMeshAgent, 20))
+				.WithStrategy(new VillagerSearchForResourcesStrategy(this))
 				.AddEffect(beliefs[ENOUGH_IRON_FOUND])
 				.Build());
 

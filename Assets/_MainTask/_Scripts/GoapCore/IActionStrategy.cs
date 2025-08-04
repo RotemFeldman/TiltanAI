@@ -2,6 +2,7 @@
 using _MainTask._Scripts;
 using GOAP.Agents;
 using GOAP.Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -58,15 +59,15 @@ namespace GOAP
 		readonly NavMeshAgent agent;
 		readonly float wanderRadius;
 		
-		public bool CanPerform => !Complete;
-		public bool Complete => agent.remainingDistance <= 2f && !agent.pathPending;
+		 public bool CanPerform => !Complete;
+		 public bool Complete => agent.remainingDistance <= 2f && !agent.pathPending;
 		
 		public WanderStrategy(NavMeshAgent agent, float wanderRadius)
 		{
 			this.agent = agent;
 			this.wanderRadius = wanderRadius;
 		}
-
+		
 		public void Start()
 		{
 			for (int i = 0; i < 10; i++)
@@ -74,7 +75,7 @@ namespace GOAP
 				Vector3 randomDirection = (Random.insideUnitCircle * wanderRadius);
 				randomDirection.y = 0;
 				NavMeshHit hit;
-
+		
 				if (NavMesh.SamplePosition(agent.transform.position + randomDirection, out hit, wanderRadius, NavMesh.AllAreas))
 				{
 					agent.SetDestination(hit.position);
@@ -83,7 +84,7 @@ namespace GOAP
 			}
 		}
 	}
-
+	
 	public class MoveToStrategy : IActionStrategy
 	{
 		readonly NavMeshAgent agent;
@@ -108,6 +109,90 @@ namespace GOAP
 			agent.ResetPath();
 		}
 	}
+	
+	public class IdleStrategy<T> : IActionStrategy where T : GoapAgent
+	{
+		public bool CanPerform { get; }
+		public bool Complete { get; }
+		
+		private readonly T agent;
+		
+		public IdleStrategy(T agent)
+		{
+			this.agent = agent;
+		}
+	}
+
+	public class VillagerSearchForResourcesStrategy : IActionStrategy
+	{
+		public bool CanPerform => true;
+		public bool Complete => agent.IsAvailable;
+
+		private VillagerAgent agent;
+		
+		public VillagerSearchForResourcesStrategy(VillagerAgent agent)
+		{
+			this.agent = agent;
+		}
+
+		public void Start()
+		{
+			//get behavior component and set enum
+		}
+
+		public void Stop()
+		{
+			//set behavior to idle
+		}
+	}
+	
+	public class MessengerSearchForResourcesStrategy : IActionStrategy
+	{
+		public bool CanPerform => true;
+		public bool Complete => agent.IsAvailable;
+
+		private readonly MessengerAgent agent;
+		
+		public MessengerSearchForResourcesStrategy(MessengerAgent agent)
+		{
+			this.agent = agent;
+		}
+
+		public void Start()
+		{
+			//get behavior component and set enum
+		}
+
+		public void Stop()
+		{
+			//set behavior to idle
+		}
+	}
+	
+	public class MageSearchForResourcesStrategy : IActionStrategy
+	{
+		public bool CanPerform => true;
+		public bool Complete => agent.IsAvailable;
+
+		private readonly MageAgent agent;
+		
+		public MageSearchForResourcesStrategy(MageAgent agent)
+		{
+			this.agent = agent;
+		}
+
+		public void Start()
+		{
+			//get behavior component and set enum
+		}
+
+		public void Stop()
+		{
+			//set behavior to idle
+		}
+	}
+
+	
 	
 	public class CraftCombinedArtifactStrategy : IActionStrategy
 	{
