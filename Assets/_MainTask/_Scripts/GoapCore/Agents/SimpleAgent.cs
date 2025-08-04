@@ -4,7 +4,7 @@ namespace GOAP.Agents
 {
 	public class SimpleAgent : MonoBehaviour
 	{
-		public bool IsAvailable => !TaskComplete;
+		public bool IsAvailable => TaskComplete;
 		public bool TaskComplete {get; private set;} = false;
 		
 		public virtual void CompleteTask()

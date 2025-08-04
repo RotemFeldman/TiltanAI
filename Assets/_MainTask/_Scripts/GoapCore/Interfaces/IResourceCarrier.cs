@@ -2,9 +2,9 @@
 {
 	public interface IResourceCarrier
 	{
-		ResourceType CurrentResource { get; }
+		ResourcePickup TargetResourcePickup { get; set; }
+		ResourcePickup CurrentResource { get; }
 		void PickupResource(ResourcePickup resource);
 		void DropResource();
-		void StartDelivaryTask();
 	}
 }

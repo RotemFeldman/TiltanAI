@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace GOAP
 {
-	[RequireComponent(typeof(SphereCollider))]
 	public class Sensor : MonoBehaviour
 	{
 		[SerializeField] float detectionRadius = 10f;
 		[SerializeField] private float timerInterval = 1f;
-		[SerializeField]
-		private List<string> relevantTags;
+		[SerializeField] private List<string> relevantTags;
+		[SerializeField] private LayerMask resourceLayer = 1 << 8; // Default to layer 8, change as needed
 		
-		SphereCollider detectionRange;
+		GoapResourceManager resourceManager;
 		
 		public event Action OntargetChanged = delegate { };
 		
@@ -31,9 +31,11 @@ namespace GOAP
 		
 		private void Awake()
 		{
-			detectionRange = GetComponent<SphereCollider>();
-			detectionRange.isTrigger = true;
-			detectionRange.radius = detectionRadius;
+			resourceManager = GoapResourceManager.Instance;
+			if (resourceManager == null)
+			{
+				resourceManager = FindObjectOfType<GoapResourceManager>();
+			}
 		}
 
 		private void Start()
@@ -41,7 +43,7 @@ namespace GOAP
 			timer = new CountdownTimer(timerInterval);
 			timer.OnTimerStop += () =>
 			{
-				UpdateTargetPosition(target.OrNull());
+				PerformOverlapCheck();
 				timer.Start();
 			};
 			timer.Start();
@@ -50,6 +52,49 @@ namespace GOAP
 		private void Update()
 		{
 			timer.Tick(Time.deltaTime);
+		}
+
+		private void PerformOverlapCheck()
+		{
+			// Check for resources using overlap sphere
+			Collider[] resourceColliders = Physics.OverlapSphere(transform.position, detectionRadius, resourceLayer);
+			
+			// Process found resources
+			foreach (Collider collider in resourceColliders)
+			{
+				ResourcePickup pickup = collider.GetComponent<ResourcePickup>();
+				if (pickup != null && !pickup.Discovered)
+				{
+					// Mark as discovered and add to manager
+					pickup.Discovered = true;
+					
+					if (resourceManager != null)
+					{
+						resourceManager.AddResourcePickup(pickup);
+						Debug.Log($"Sensor discovered new resource: {pickup.ResourceType} at {collider.transform.position}");
+					}
+				}
+			}
+			
+			// Check for tagged objects (original functionality)
+			Collider[] taggedColliders = Physics.OverlapSphere(transform.position, detectionRadius);
+			GameObject closestTaggedObject = null;
+			float closestDistance = float.MaxValue;
+			
+			foreach (Collider collider in taggedColliders)
+			{
+				if (relevantTags.Contains(collider.tag))
+				{
+					float distance = Vector3.Distance(transform.position, collider.transform.position);
+					if (distance < closestDistance)
+					{
+						closestDistance = distance;
+						closestTaggedObject = collider.gameObject;
+					}
+				}
+			}
+			
+			UpdateTargetPosition(closestTaggedObject);
 		}
 
 		void UpdateTargetPosition(GameObject target = null)
@@ -61,25 +106,20 @@ namespace GOAP
 				OntargetChanged.Invoke();
 			}
 		}
-		
-		private void OnTriggerEnter(Collider other)
+
+		private bool IsInResourceLayer(GameObject obj)
 		{
-			if(!relevantTags.Contains(other.tag)) return;
-			
-			UpdateTargetPosition(other.gameObject);
+			return (resourceLayer.value & (1 << obj.layer)) != 0;
 		}
 
-		private void OnTriggerExit(Collider other)
-		{
-			if(!relevantTags.Contains(other.tag)) return;
-			
-			UpdateTargetPosition();
-		}
-
-		void OnDrawGizmos()
+		void OnDrawGizmosSelected()
 		{
 			Gizmos.color = IsTargetInRange ? Color.red : Color.green;
 			Gizmos.DrawWireSphere(transform.position, detectionRadius);
+			
+			// Draw resource detection range in blue
+			Gizmos.color = Color.blue;
+			Gizmos.DrawWireSphere(transform.position, detectionRadius * 0.8f);
 		}
 	}
 }

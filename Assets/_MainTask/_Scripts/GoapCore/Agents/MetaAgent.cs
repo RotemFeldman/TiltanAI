@@ -53,12 +53,12 @@ namespace GOAP.Agents
 			factory.AddBelief(IRON_INGOTS_FOR_SHIELD_COLLECTED, () => resourceManager.IronIngotsEffectiveCount >= 2);
 			
 			factory.AddBelief(VILLAGERS_AVAILABLE, () => GetAvailableVillagers().Count > 0);
-			factory.AddBelief(MESSENGERS_AVAILABLE, () => GetAvailableMessengers().Count > 0);
+			//factory.AddBelief(MESSENGERS_AVAILABLE, () => GetAvailableMessengers().Count > 0);
 			factory.AddBelief(MAGE_AVAILABLE, () => mage.IsAvailable);
 			
-			factory.AddBelief(UNRESERVED_OAK_LOG_PICKUP,() => resourceManager.TryFindUnreservedResource(ResourceType.OakLog));
-			factory.AddBelief(UNRESERVED_CRYSTAL_SHARD_PICKUP,(() => resourceManager.TryFindUnreservedResource(ResourceType.CrystalShard)));
-			factory.AddBelief(UNRESERVED_IRON_INGOT_PICKUP,(() => resourceManager.TryFindUnreservedResource(ResourceType.IronIngot)));
+			factory.AddBelief(UNRESERVED_OAK_LOG_PICKUP,() => resourceManager.HasUnreservedResource(ResourceType.OakLog));
+			factory.AddBelief(UNRESERVED_CRYSTAL_SHARD_PICKUP,(() => resourceManager.HasUnreservedResource(ResourceType.CrystalShard)));
+			factory.AddBelief(UNRESERVED_IRON_INGOT_PICKUP,(() => resourceManager.HasUnreservedResource(ResourceType.IronIngot)));
 		}
 
 		protected override void SetupActions()
@@ -92,7 +92,7 @@ namespace GOAP.Agents
 			
 			// Resources Delivery
 			actions.Add(new AgentAction.Builder("Villager Deliver Oak Log")
-				.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.OakLog, this))
+				//.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.OakLog, this))
 				.WithCost(10)
 				.AddPrecondition(beliefs[UNRESERVED_OAK_LOG_PICKUP])
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
@@ -100,7 +100,7 @@ namespace GOAP.Agents
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Villager Deliver Crystal Shard")
-				.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.CrystalShard, this))
+				//.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.CrystalShard, this))
 				.WithCost(10)
 				.AddPrecondition(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
@@ -108,7 +108,7 @@ namespace GOAP.Agents
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Villager Deliver Iron Ingot")
-				.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.IronIngot, this))
+			//	.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(ResourceType.IronIngot, this))
 				.WithCost(10)
 				.AddPrecondition(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
@@ -116,91 +116,91 @@ namespace GOAP.Agents
 				.AddEffect(beliefs[IRON_INGOTS_FOR_STAFF_COLLECTED])
 				.Build());
 
-			actions.Add(new AgentAction.Builder("Messenger Deliver Oak Log")
-				.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.OakLog, this))
-				.AddPrecondition(beliefs[UNRESERVED_OAK_LOG_PICKUP])
-				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
-				.AddEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Messenger Deliver Crystal Shard")
-				.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.CrystalShard, this))
-				.AddPrecondition(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
-				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
-				.AddEffect(beliefs[ENOUGH_CRYSTAL_SHARDS_COLLECTED])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Messenger Deliver Iron Ingot")
-				.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.IronIngot, this))
-				.AddPrecondition(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
-				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
-				.AddEffect(beliefs[IRON_INGOTS_FOR_SHIELD_COLLECTED])
-				.AddEffect(beliefs[IRON_INGOTS_FOR_STAFF_COLLECTED])
-				.Build());
+			// actions.Add(new AgentAction.Builder("Messenger Deliver Oak Log")
+			// 	.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.OakLog, this))
+			// 	.AddPrecondition(beliefs[UNRESERVED_OAK_LOG_PICKUP])
+			// 	.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
+			// 	.AddEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Messenger Deliver Crystal Shard")
+			// 	.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.CrystalShard, this))
+			// 	.AddPrecondition(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
+			// 	.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
+			// 	.AddEffect(beliefs[ENOUGH_CRYSTAL_SHARDS_COLLECTED])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Messenger Deliver Iron Ingot")
+			// 	.WithStrategy(new DeliverResourceStrategy<MessengerAgent>(ResourceType.IronIngot, this))
+			// 	.AddPrecondition(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
+			// 	.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
+			// 	.AddEffect(beliefs[IRON_INGOTS_FOR_SHIELD_COLLECTED])
+			// 	.AddEffect(beliefs[IRON_INGOTS_FOR_STAFF_COLLECTED])
+			// 	.Build());
 			
 			// Search for resources
 			actions.Add(new AgentAction.Builder("Villager Search for Oak Logs")
-				.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.OakLog, this))
+				//.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.OakLog, this))
 				.WithCost(1)
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
 				.AddEffect(beliefs[UNRESERVED_OAK_LOG_PICKUP])
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Villager Search for Crystal Shard")
-				.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.CrystalShard, this))
+			//	.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.CrystalShard, this))
 				.WithCost(1)
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
 				.AddEffect(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Villager Search for Iron Ingot")
-				.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.IronIngot, this))
+				//.WithStrategy(new SearchForResourceStrategy<VillagerAgent>(ResourceType.IronIngot, this))
 				.WithCost(1)
 				.AddPrecondition(beliefs[VILLAGERS_AVAILABLE])
 				.AddEffect(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Messenger Search for Oak Logs")
-				.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.OakLog, this))
+				//.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.OakLog, this))
 				.WithCost(10)
 				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
 				.AddEffect(beliefs[UNRESERVED_OAK_LOG_PICKUP])
 				.Build());
 			
-			actions.Add(new AgentAction.Builder("Messenger Search for Crystal Shard")
-				.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.CrystalShard, this))
-				.WithCost(10)
-				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
-				.AddEffect(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Messenger Search for Iron Ingot")
-				.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.IronIngot, this))
-				.WithCost(10)
-				.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
-				.AddEffect(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Mage Search for Oak Logs")
-				.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.OakLog, this))
-				.WithCost(50)
-				.AddPrecondition(beliefs[MAGE_AVAILABLE])
-				.AddEffect(beliefs[UNRESERVED_OAK_LOG_PICKUP])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Mage Search for Crystal Shard")
-				.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.CrystalShard, this))
-				.WithCost(50)
-				.AddPrecondition(beliefs[MAGE_AVAILABLE])
-				.AddEffect(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Mage Search for Iron Ingot")
-				.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.IronIngot, this))
-				.WithCost(50)
-				.AddPrecondition(beliefs[MAGE_AVAILABLE])
-				.AddEffect(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
-				.Build());
+			// actions.Add(new AgentAction.Builder("Messenger Search for Crystal Shard")
+			// 	.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.CrystalShard, this))
+			// 	.WithCost(10)
+			// 	.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
+			// 	.AddEffect(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Messenger Search for Iron Ingot")
+			// 	.WithStrategy(new SearchForResourceStrategy<MessengerAgent>(ResourceType.IronIngot, this))
+			// 	.WithCost(10)
+			// 	.AddPrecondition(beliefs[MESSENGERS_AVAILABLE])
+			// 	.AddEffect(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Mage Search for Oak Logs")
+			// 	.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.OakLog, this))
+			// 	.WithCost(50)
+			// 	.AddPrecondition(beliefs[MAGE_AVAILABLE])
+			// 	.AddEffect(beliefs[UNRESERVED_OAK_LOG_PICKUP])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Mage Search for Crystal Shard")
+			// 	.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.CrystalShard, this))
+			// 	.WithCost(50)
+			// 	.AddPrecondition(beliefs[MAGE_AVAILABLE])
+			// 	.AddEffect(beliefs[UNRESERVED_CRYSTAL_SHARD_PICKUP])
+			// 	.Build());
+			//
+			// actions.Add(new AgentAction.Builder("Mage Search for Iron Ingot")
+			// 	.WithStrategy(new SearchForResourceStrategy<MageAgent>(ResourceType.IronIngot, this))
+			// 	.WithCost(50)
+			// 	.AddPrecondition(beliefs[MAGE_AVAILABLE])
+			// 	.AddEffect(beliefs[UNRESERVED_IRON_INGOT_PICKUP])
+			// 	.Build());
 		}
 
 		protected override void SetupGoals()
@@ -247,13 +247,14 @@ namespace GOAP.Agents
 
 		public List<VillagerAgent> GetAvailableVillagers()
 		{
-			return villagers.Where(v => v.IsAvailable).ToList();
+			//return villagers.Where(v => v.IsAvailable).ToList();
+			return null;
 		}
 
-		public List<MessengerAgent> GetAvailableMessengers()
-		{
-			return messengers.Where(m => m.IsAvailable).ToList();
-		}
+		// public List<MessengerAgent> GetAvailableMessengers()
+		// {
+		// 	return messengers.Where(m => m.IsAvailable).ToList();
+		// }
 
 		public MageAgent GetAvailableMage()
 		{
@@ -294,7 +295,7 @@ namespace GOAP.Agents
             GUILayout.Space(10);
             GUILayout.Label("=== Agent Availability ===");
             GUILayout.Label($"Available Villagers: {GetAvailableVillagers().Count}/{villagers.Count}");
-            GUILayout.Label($"Available Messengers: {GetAvailableMessengers().Count}/{messengers.Count}");
+           // GUILayout.Label($"Available Messengers: {GetAvailableMessengers().Count}/{messengers.Count}");
             GUILayout.Label($"Mage Available: {(mage.IsAvailable ? "Yes" : "No")}");
 
             GUILayout.EndArea();

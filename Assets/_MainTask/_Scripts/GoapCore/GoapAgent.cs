@@ -8,6 +8,8 @@ namespace GOAP
 {
 	public abstract class GoapAgent : MonoBehaviour
 	{
+		public bool IsAvailable => currentAction == null || currentAction.Name == "Relax";
+		
 		protected NavMeshAgent navMeshAgent;
 		protected Rigidbody rb;
 
@@ -44,6 +46,12 @@ namespace GOAP
 			SetupActions();
 			SetupGoals();
 		}
+
+		public virtual void CompleteTask()
+		{
+			currentAction = null;
+		}
+		
 
 		protected abstract void SetupBeliefs();
 		protected abstract void SetupActions();

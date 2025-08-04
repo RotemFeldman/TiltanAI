@@ -234,76 +234,72 @@ namespace GOAP
 		}
 	}
 	
-	public class DeliverResourceStrategy<T> : IActionStrategy where T : SimpleAgent, IResourceCarrier
+	public class DeliverResourceStrategy<T> : IActionStrategy where T : GoapAgent, IResourceCarrier
 	{
-		readonly ResourceType resource;
-		readonly MetaAgent metaAgent;
-		T agent;
+		readonly ResourcePickup resource;
+		readonly T agent;
 
-		public bool CanPerform => agent != null && resource != ResourceType.None && !Complete;
-		public bool Complete => agent.TaskComplete;
+		public bool CanPerform => agent != null && resource != null && !Complete;
+		public bool Complete => agent.TargetResourcePickup == null;
 		
-		public DeliverResourceStrategy(ResourceType resource,MetaAgent metaAgent)
+		public DeliverResourceStrategy(ResourcePickup resource, T agent)
 		{
 			this.resource = resource;
-			this.metaAgent = metaAgent;
+			this.agent = agent;
 		}
-
-		public void Start()
-		{
-			agent = GetAvailableAgent();
-			if (agent != null)
-			{
-				agent.StartDelivaryTask();
-			}
-		}
-
-		private T GetAvailableAgent()
-		{
-			if (typeof(T) == typeof(VillagerAgent))
-				return metaAgent.GetAvailableVillagers().FirstOrDefault() as T;
-			else if (typeof(T) == typeof(MessengerAgent))
-				return metaAgent.GetAvailableMessengers().FirstOrDefault() as T;
-			
-			return null;
-		}
-		
 	}
 
-	public class SearchForResourceStrategy<T> : IActionStrategy where T : SimpleAgent
+	public class BuildEnchantedStaff : IActionStrategy
 	{
-		readonly ResourceType resource;
-		readonly MetaAgent metaAgent;
-		T agent;
-
-		public bool CanPerform => agent != null && resource != ResourceType.None && !Complete;
-		public bool Complete => agent.TaskComplete;
-
-		public SearchForResourceStrategy(ResourceType resource, MetaAgent metaAgent)
-		{
-			this.resource = resource;
-			this.metaAgent = metaAgent;
-		}
-		
-		public void Start()
-		{
-			agent = GetAvailableAgent();
-			if (agent != null)
-			{
-				//agent.StartDelivaryTask();
-			}
-		}
-
-		private T GetAvailableAgent()
-		{
-			if (typeof(T) == typeof(VillagerAgent))
-				return metaAgent.GetAvailableVillagers().FirstOrDefault() as T;
-			else if (typeof(T) == typeof(MessengerAgent))
-				return metaAgent.GetAvailableMessengers().FirstOrDefault() as T;
-			else if (typeof(T) == typeof(MageAgent))
-				return metaAgent.GetAvailableMage() as T;
-				
-			return null;
-		}
+		public bool CanPerform { get; }
+		public bool Complete { get; }
 	}
+
+	public class BuildRunedShield : IActionStrategy
+	{
+		public bool CanPerform { get; }
+		public bool Complete { get; }
+	}
+	
+	public class BuildCombinedArtifact : IActionStrategy
+	{
+		public bool CanPerform { get; }
+		public bool Complete { get; }
+	}
+
+	// public class SearchForResourceStrategy<T> : IActionStrategy where T : GoapAgent
+	// {
+	// 	readonly ResourceType resource;
+	// 	private readonly T agent;
+	//
+	// 	public bool CanPerform => !Complete;
+	// 	public bool Complete {get; private set;}
+	//
+	// 	public SearchForResourceStrategy(ResourceType resource, MetaAgent metaAgent)
+	// 	{
+	// 		this.resource = resource;
+	// 		this.metaAgent = metaAgent;
+	// 	}
+	// 	
+	// 	public void Start()
+	// 	{
+	// 		agent = GetAvailableAgent();
+	// 		if (agent != null)
+	// 		{
+	// 			//agent.StartDelivaryTask();
+	// 		}
+	// 	}
+	//
+	// 	private T GetAvailableAgent()
+	// 	{
+	// 		if (typeof(T) == typeof(VillagerAgent))
+	// 			return metaAgent.GetAvailableVillagers().FirstOrDefault() as T;
+	// 		else if (typeof(T) == typeof(MessengerAgent))
+	// 			return metaAgent.GetAvailableMessengers().FirstOrDefault() as T;
+	// 		else if (typeof(T) == typeof(MageAgent))
+	// 			return metaAgent.GetAvailableMage() as T;
+	// 			
+	// 		return null;
+	// 	}
+	// }
 }

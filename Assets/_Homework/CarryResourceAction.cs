@@ -20,27 +20,27 @@ public partial class CarryResourceAction : Action
     {
         switch (Type.Value)
         {
-            case AgentType.Villager:
-                _agent = Agent.Value.GetComponent<VillagerAgent>();
-                if (_agent is VillagerAgent a)
-                {
-                    //Location = (BlackboardVariable<Vector3>) a.GetCarryResourceLocation();
-                }
-                break;
-            case AgentType.Mage:
-                _agent = Agent.Value.GetComponent<VillagerAgent>();
-                if (_agent is VillagerAgent b)
-                {
-                    //Location = (BlackboardVariable<Vector3>) b.GetCarryResourceLocation();
-                }
-                break;
-            case AgentType.Messenger:
-                _agent = Agent.Value.GetComponent<VillagerAgent>();
-                if (_agent is VillagerAgent c)
-                {
-                  //  Location = (BlackboardVariable<Vector3>) c.GetCarryResourceLocation();
-                }
-                break;
+            // case AgentType.Villager:
+            //     _agent = Agent.Value.GetComponent<VillagerAgent>();
+            //     if (_agent is VillagerAgent a)
+            //     {
+            //         //Location = (BlackboardVariable<Vector3>) a.GetCarryResourceLocation();
+            //     }
+            //     break;
+            // case AgentType.Mage:
+            //     _agent = Agent.Value.GetComponent<VillagerAgent>();
+            //     if (_agent is VillagerAgent b)
+            //     {
+            //         //Location = (BlackboardVariable<Vector3>) b.GetCarryResourceLocation();
+            //     }
+            //     break;
+            // case AgentType.Messenger:
+            //     _agent = Agent.Value.GetComponent<VillagerAgent>();
+            //     if (_agent is VillagerAgent c)
+            //     {
+            //       //  Location = (BlackboardVariable<Vector3>) c.GetCarryResourceLocation();
+            //     }
+            //     break;
         }
         return Status.Success;
     }

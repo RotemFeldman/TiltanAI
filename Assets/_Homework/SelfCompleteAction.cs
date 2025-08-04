@@ -1,4 +1,5 @@
 using System;
+using GOAP;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -11,7 +12,7 @@ public partial class SelfCompleteAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> Agent;
     [SerializeReference] public BlackboardVariable<AgentType> Type;
-    private SimpleAgent _agent;
+    private GoapAgent _agent;
 
     protected override Status OnStart()
     {
