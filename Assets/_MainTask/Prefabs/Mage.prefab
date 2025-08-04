@@ -15,9 +15,7 @@ GameObject:
   - component: {fileID: 767909113185040335}
   - component: {fileID: 8514019006077310002}
   - component: {fileID: 1117033391245189699}
-  - component: {fileID: 4610847315324669693}
   - component: {fileID: 4255356316259390558}
-  - component: {fileID: 4636569221156377524}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -171,28 +169,6 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &4610847315324669693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56e7064871a36664bb02d1fa4c2bbaa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BehaviorGraph: {fileID: 4636569221156377524}
-  searchRadius: 10
-  resourceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  searchInterval: 0.5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  maxSearchDistance: 20
 --- !u!114 &4255356316259390558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,31 +182,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourceManager: {fileID: 0}
---- !u!114 &4636569221156377524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Graph: {fileID: -3576598393788807762, guid: fdcfc4197db692a4ebd78e5371b1ace9, type: 2}
-  m_BlackboardVariableOverridesList:
-  - rid: 2736936336124018851
-  m_IsInitialised: 0
-  m_IsStarted: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2736936336124018851
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        m_Value: {fileID: 2626630352304112364}

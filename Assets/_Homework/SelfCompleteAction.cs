@@ -33,7 +33,7 @@ public partial class SelfCompleteAction : Action
 
     protected override Status OnUpdate()
     {
-        _agent.CompleteTask();
+       // _agent.CompleteTask();
         return Status.Success;
     }
 

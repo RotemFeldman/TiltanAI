@@ -14,10 +14,8 @@ GameObject:
   - component: {fileID: 5032855372175064813}
   - component: {fileID: 4828476771385161163}
   - component: {fileID: 839557426428083400}
-  - component: {fileID: 2884999734996624990}
   - component: {fileID: 261598446580888038}
   - component: {fileID: 6218813594161386882}
-  - component: {fileID: 2092418608056233385}
   m_Layer: 0
   m_Name: Villager
   m_TagString: Untagged
@@ -150,28 +148,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2884999734996624990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927366732531790013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 250086c405ea60d4e812ff6bd3682675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BehaviorGraph: {fileID: 2092418608056233385}
-  searchRadius: 10
-  resourceLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  searchInterval: 0.5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  maxSearchDistance: 20
 --- !u!114 &261598446580888038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,31 +182,3 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &2092418608056233385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927366732531790013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Graph: {fileID: 213183209385434118, guid: 6a9c5dc656483254886439223a2680e4, type: 2}
-  m_BlackboardVariableOverridesList:
-  - rid: 2736936336124018849
-  m_IsInitialised: 0
-  m_IsStarted: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2736936336124018849
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        m_Value: {fileID: 1927366732531790013}

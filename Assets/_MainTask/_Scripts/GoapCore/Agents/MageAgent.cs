@@ -17,12 +17,16 @@ namespace GOAP.Agents
 		private const string ENOUGH_CRYSTALS_FOUND = "EnoughCrystalsFound";
 		private const string ENOUGH_IRON_FOUND = "EnoughIronFound";
 		
+		private const string NEAR_BUILD_LOCATION = "NearBuildLocation";
+		
 		[SerializeField] GoapResourceManager resourceManager;
+		[SerializeField] Transform buildLocation;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			resourceManager = GoapResourceManager.Instance;
+			buildLocation = BuildLocation.Instance.transform;
 			navMeshAgent = GetComponent<NavMeshAgent>();
 		}
 
@@ -42,6 +46,7 @@ namespace GOAP.Agents
 			factory.AddBelief(ENOUGH_OAK_LOGS_FOUND, () => resourceManager.OakLogsFoundCount >= 5);
 			factory.AddBelief(ENOUGH_CRYSTALS_FOUND, () => resourceManager.CrystalsFoundCount >= 4);
 			factory.AddBelief(ENOUGH_IRON_FOUND, () => resourceManager.IronIngotsFoundCount >= 5);
+			factory.AddBelief(NEAR_BUILD_LOCATION, () => Vector3.Distance(transform.position, buildLocation.position) < 5f);
 		}
 
 		protected override void SetupActions()
@@ -49,23 +54,28 @@ namespace GOAP.Agents
 			actions = new();
 			
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new IdleStrategy<MageAgent>(this))
+				.WithStrategy(new IdleStrategy(5f))
 				.AddEffect(beliefs[NOTHING])
+				.Build());
+
+			actions.Add(new AgentAction.Builder("Move To Build Location")
+				.WithStrategy(new MoveToStrategy(navMeshAgent, buildLocation.position))
+				.AddEffect(beliefs[NEAR_BUILD_LOCATION])
 				.Build());
 			
 			// Search actions - Only when necessary
 			actions.Add(new AgentAction.Builder("Search For Oak Logs")
-				.WithStrategy(new MageSearchForResourcesStrategy(this))
+				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
 				.AddEffect(beliefs[ENOUGH_OAK_LOGS_FOUND])
 				.Build());
 				
 			actions.Add(new AgentAction.Builder("Search For Crystals")
-				.WithStrategy(new MageSearchForResourcesStrategy(this))
+				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
 				.AddEffect(beliefs[ENOUGH_CRYSTALS_FOUND])
 				.Build());
 				
 			actions.Add(new AgentAction.Builder("Search For Iron")
-				.WithStrategy(new MageSearchForResourcesStrategy(this))
+				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
 				.AddEffect(beliefs[ENOUGH_IRON_FOUND])
 				.Build());
 
@@ -74,12 +84,14 @@ namespace GOAP.Agents
 				.WithStrategy(new CraftEnchantedStaffStrategy(resourceManager, 7f))
 				.AddEffect(beliefs[HAS_STAFF])
 				.AddPrecondition(beliefs[CAN_BUILD_STAFF])
+				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
 				.Build());
 			
 			actions.Add(new AgentAction.Builder("Build Runed Shield")
 				.WithStrategy(new CraftRunedShieldStrategy(resourceManager, 10f))
 				.AddEffect(beliefs[HAS_SHIELD])
 				.AddPrecondition(beliefs[CAN_BUILD_SHIELD])
+				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
 				.Build());
 
 			actions.Add(new AgentAction.Builder("Build Combined Artifact")
@@ -87,6 +99,7 @@ namespace GOAP.Agents
 				.AddEffect(beliefs[HAS_ARTIFACT])
 				.AddPrecondition(beliefs[HAS_STAFF])
 				.AddPrecondition(beliefs[HAS_SHIELD])
+				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
 				.Build());
 		}
 

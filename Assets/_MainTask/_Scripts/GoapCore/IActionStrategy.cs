@@ -109,88 +109,6 @@ namespace GOAP
 			agent.ResetPath();
 		}
 	}
-	
-	public class IdleStrategy<T> : IActionStrategy where T : GoapAgent
-	{
-		public bool CanPerform { get; }
-		public bool Complete { get; }
-		
-		private readonly T agent;
-		
-		public IdleStrategy(T agent)
-		{
-			this.agent = agent;
-		}
-	}
-
-	public class VillagerSearchForResourcesStrategy : IActionStrategy
-	{
-		public bool CanPerform => true;
-		public bool Complete => agent.IsAvailable;
-
-		private VillagerAgent agent;
-		
-		public VillagerSearchForResourcesStrategy(VillagerAgent agent)
-		{
-			this.agent = agent;
-		}
-
-		public void Start()
-		{
-			//get behavior component and set enum
-		}
-
-		public void Stop()
-		{
-			//set behavior to idle
-		}
-	}
-	
-	public class MessengerSearchForResourcesStrategy : IActionStrategy
-	{
-		public bool CanPerform => true;
-		public bool Complete => agent.IsAvailable;
-
-		private readonly MessengerAgent agent;
-		
-		public MessengerSearchForResourcesStrategy(MessengerAgent agent)
-		{
-			this.agent = agent;
-		}
-
-		public void Start()
-		{
-			//get behavior component and set enum
-		}
-
-		public void Stop()
-		{
-			//set behavior to idle
-		}
-	}
-	
-	public class MageSearchForResourcesStrategy : IActionStrategy
-	{
-		public bool CanPerform => true;
-		public bool Complete => agent.IsAvailable;
-
-		private readonly MageAgent agent;
-		
-		public MageSearchForResourcesStrategy(MageAgent agent)
-		{
-			this.agent = agent;
-		}
-
-		public void Start()
-		{
-			//get behavior component and set enum
-		}
-
-		public void Stop()
-		{
-			//set behavior to idle
-		}
-	}
 
 	
 	
@@ -198,8 +116,8 @@ namespace GOAP
 	{
 		readonly GoapResourceManager resourceManager;
 		private readonly CountdownTimer timer;
-		
-		public bool CanPerform => (resourceManager.EnchantedStaff && resourceManager.RunedShield && !Complete);
+
+		public bool CanPerform => !Complete;
 		public bool Complete { get; private set; }
 
 		public CraftCombinedArtifactStrategy(GoapResourceManager resourceManager, float duration)
@@ -238,8 +156,8 @@ namespace GOAP
 	{
 		readonly GoapResourceManager resourceManager;
 		private readonly CountdownTimer timer;
-		
-		public bool CanPerform => (resourceManager.OakLogsEffectiveCount >= 5 && resourceManager.IronIngotsEffectiveCount >= 3 && !Complete);
+
+		public bool CanPerform => !Complete;
 		public bool Complete { get; private set; }
 		
 		public CraftEnchantedStaffStrategy(GoapResourceManager resourceManager, float duration)
@@ -281,7 +199,7 @@ namespace GOAP
 		readonly GoapResourceManager resourceManager;
 		private readonly CountdownTimer timer;
 		
-		public bool CanPerform => (resourceManager.CrystalsEffectiveCount >= 4 && resourceManager.IronIngotsEffectiveCount >= 2 && !Complete);
+		public bool CanPerform => !Complete;
 		public bool Complete { get; private set; }
 		
 		public CraftRunedShieldStrategy(GoapResourceManager resourceManager, float duration)
@@ -319,37 +237,124 @@ namespace GOAP
 		}
 	}
 	
-	public class DeliverResourceStrategy<T> : IActionStrategy where T : GoapAgent, IResourceCarrier
+	public class DeliverResourceStrategy<T> : IActionStrategy where T : IResourceCarrier 
 	{
-		readonly ResourcePickup resource;
 		readonly T agent;
 
-		public bool CanPerform => agent != null && resource != null && !Complete;
-		public bool Complete => agent.TargetResourcePickup == null;
+		public bool CanPerform => !Complete;
+		public bool Complete { get; private set; }//agent.CurrentResource == null;
 		
-		public DeliverResourceStrategy(ResourcePickup resource, T agent)
+		public DeliverResourceStrategy( T agent)
 		{
-			this.resource = resource;
 			this.agent = agent;
+		}
+
+		public void Update(float deltaTime)
+		{
+			agent.DropResource();
+			Complete = true;
 		}
 	}
 
-	public class BuildEnchantedStaff : IActionStrategy
+	public class PickupResourceStrategy<T> : IActionStrategy where T : IResourceCarrier
 	{
-		public bool CanPerform { get; }
-		public bool Complete { get; }
+		readonly T agent;
+
+		public bool CanPerform => !Complete;
+		public bool Complete { get; private set; } = false;
+		
+		public PickupResourceStrategy(T agent)
+		{
+			this.agent = agent;
+			Debug.Log($"PickupResourceStrategy created for {agent}");
+		}
+    
+		public void Start()
+		{
+			Debug.Log($"PickupResourceStrategy STARTED for {agent}");
+			Debug.Log($"TargetResourcePickup: {agent.TargetResourcePickup?.name}");
+		}
+    
+		public void Update(float deltaTime)
+		{
+			Debug.Log($"PickupResourceStrategy UPDATE called for {agent}");
+			Debug.Log($"TargetResourcePickup: {agent.TargetResourcePickup?.name}");
+        
+			if (agent.TargetResourcePickup == null)
+			{
+				Debug.LogError($"TargetResourcePickup is null! Cannot pickup resource.");
+				Complete = true;
+				return;
+			}
+        
+			agent.PickupResource(agent.TargetResourcePickup);
+			Debug.Log($"PickupResource called, setting Complete = true");
+			Complete = true;
+		}
+    
+		public void Stop()
+		{
+			Debug.Log($"PickupResourceStrategy STOPPED for {agent}");
+		}
+
+		
 	}
 
-	public class BuildRunedShield : IActionStrategy
+	public class RequestPickupStrategy<T> : IActionStrategy where T : class, IResourceCarrier
 	{
-		public bool CanPerform { get; }
-		public bool Complete { get; }
+		readonly T agent;
+		public bool CanPerform => !Complete;
+		public bool Complete { get; private set; }
+
+		public RequestPickupStrategy(T agent)
+		{
+			this.agent = agent;
+		}
+
+		public void Start()
+		{
+			var pickup = GoapResourceManager.Instance.TryFindUnreservedResource(out var resource);
+			if (pickup)
+			{
+				agent.TargetResourcePickup = resource;
+			}
+			Complete = true;
+		}
+	
 	}
 	
-	public class BuildCombinedArtifact : IActionStrategy
+	public class MoveToPickupStrategy<T> : IActionStrategy where T : class, IResourceCarrier
 	{
-		public bool CanPerform { get; }
-		public bool Complete { get; }
+		readonly NavMeshAgent agent;
+		readonly T agentTarget;
+		private bool complete = false;
+		
+		public bool CanPerform => !Complete;
+		public bool Complete => (agent.remainingDistance <= 2f && !agent.pathPending) || complete;
+		
+		public MoveToPickupStrategy(NavMeshAgent agent, T agentTarget)
+		{
+			this.agent = agent;
+			this.agentTarget = agentTarget;
+		}
+
+		public void Start()
+		{
+			complete = false;
+			
+			if (agentTarget.TargetResourcePickup == null)
+			{
+				complete = true;
+				return;
+			}
+			
+			agent.SetDestination(agentTarget.TargetResourcePickup.transform.position);
+		}
+
+		public void Stop()
+		{
+			agent.ResetPath();
+		}
 	}
 
 	// public class SearchForResourceStrategy<T> : IActionStrategy where T : GoapAgent

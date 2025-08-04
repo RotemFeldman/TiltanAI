@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6894463532749947851}
   - component: {fileID: 4232819195170757355}
   - component: {fileID: 101954775140798702}
-  - component: {fileID: 4535604024141888035}
   m_Layer: 0
   m_Name: Messenger
   m_TagString: Untagged
@@ -63,7 +62,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9dc6b5ed9143babec62be3bd217430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetResourcePickup>k__BackingField: {fileID: 0}
+  <CurrentResource>k__BackingField: {fileID: 0}
   resourceManager: {fileID: 0}
+  buildLocation: {fileID: 0}
 --- !u!33 &3752437385514917708
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -150,7 +152,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -183,31 +185,3 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &4535604024141888035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2177980890516117588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Graph: {fileID: -6563950107786028993, guid: 6ea6eb934fb68a44e8fcc585471d2ed2, type: 2}
-  m_BlackboardVariableOverridesList:
-  - rid: 2736936336124018850
-  m_IsInitialised: 0
-  m_IsStarted: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 2736936336124018850
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        m_Value: {fileID: 2177980890516117588}

@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 namespace GOAP.Agents
 {
+	// OLD - DONT USE
 	public class MetaAgent : GoapAgent
 	{
 		[Header("Agents")]
