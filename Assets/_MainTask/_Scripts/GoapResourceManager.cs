@@ -68,6 +68,7 @@ public class GoapResourceManager : MonoBehaviour
 		{
 			ResourcePickups.Remove(resourcePickup);
 			resourcePickup.Reserve();
+			resourcePickup.Reserve();
 		}
 		
 		return resourcePickup != null;

@@ -56,7 +56,7 @@ namespace GOAP.Agents
 			
 			if (CurrentResource != null)
 			{
-				if (Vector3.Distance(transform.position, CurrentResource.Position) < 1f)
+				if (Vector3.Distance(transform.position, CurrentResource.Position) < 3f)
 				{
 					DropResource();
 				}
@@ -107,7 +107,7 @@ namespace GOAP.Agents
 			actions = new();
 
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new WanderStrategy(navMeshAgent,5f))
+				.WithStrategy(new WanderStrategy(navMeshAgent,50f))
 				.AddEffect(beliefs[NOTHING])
 				.Build());
 
@@ -181,29 +181,21 @@ namespace GOAP.Agents
 		{
 			goals = new HashSet<AgentGoal>(); // Ensure it's initialized
 
-			// Add null check for beliefs
-			if (beliefs == null)
-			{
-				Debug.LogError($"{name}: Beliefs not initialized before SetupGoals");
-				return;
-			}
-
-
 			// Delivery goals 
-			// goals.Add(new AgentGoal.Builder("Collect Oak Logs")
-			// 	.WithPriority(20)
-			// 	.WithDesiredEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
-			// 	.Build());
-			// 	
-			// goals.Add(new AgentGoal.Builder("Collect Crystals")
-			// 	.WithPriority(15)
-			// 	.WithDesiredEffect(beliefs[ENOUGH_CRYSTALS_COLLECTED])
-			// 	.Build());
-			// 	
-			// goals.Add(new AgentGoal.Builder("Collect Iron")
-			// 	.WithPriority(10)
-			// 	.WithDesiredEffect(beliefs[ENOUGH_IRON_COLLECTED])
-			// 	.Build());
+			goals.Add(new AgentGoal.Builder("Collect Oak Logs")
+				.WithPriority(20)
+				.WithDesiredEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
+				.Build());
+				
+			goals.Add(new AgentGoal.Builder("Collect Crystals")
+				.WithPriority(15)
+				.WithDesiredEffect(beliefs[ENOUGH_CRYSTALS_COLLECTED])
+				.Build());
+				
+			goals.Add(new AgentGoal.Builder("Collect Iron")
+				.WithPriority(10)
+				.WithDesiredEffect(beliefs[ENOUGH_IRON_COLLECTED])
+				.Build());
 
 			// Finding goals 
 			goals.Add(new AgentGoal.Builder("Find Oak Logs")
@@ -226,20 +218,6 @@ namespace GOAP.Agents
 				.WithDesiredEffect(beliefs[NOTHING])
 				.Build());
 			
-			Debug.Log($"{name}: Initialized {goals.Count} goals");
-    
-			// Debug each goal's current state
-			foreach (var goal in goals)
-			{
-				bool isAlreadySatisfied = !goal.DesiredEffects.Any(b => !b.Evaluate());
-				Debug.Log($"{name}: Goal '{goal.Name}' - Priority: {goal.Priority}, Already Satisfied: {isAlreadySatisfied}");
-        
-				foreach (var effect in goal.DesiredEffects)
-				{
-					Debug.Log($"{name}: - Effect '{effect.Name}': {effect.Evaluate()}");
-				}
-			}
-
 		}
 	}
 }

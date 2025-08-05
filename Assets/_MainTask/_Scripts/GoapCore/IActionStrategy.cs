@@ -302,6 +302,7 @@ namespace GOAP
 
 	public class RequestPickupStrategy<T> : IActionStrategy where T : class, IResourceCarrier
 	{
+		// private readonly CountdownTimer timer;
 		readonly T agent;
 		public bool CanPerform => !Complete;
 		public bool Complete { get; private set; }
@@ -309,10 +310,14 @@ namespace GOAP
 		public RequestPickupStrategy(T agent)
 		{
 			this.agent = agent;
-		}
+		// 	timer = new CountdownTimer(2f);
+		// 	timer.OnTimerStart += (() => Complete = false);
+		// 	timer.OnTimerStop += (() => Complete = true);
+		 }
 
 		public void Start()
 		{
+			//timer.Start();
 			var pickup = GoapResourceManager.Instance.TryFindUnreservedResource(out var resource);
 			if (pickup)
 			{
@@ -321,7 +326,11 @@ namespace GOAP
 			}
 			Complete = true;
 		}
-	
+
+		public void Update(float deltaTime)
+		{
+			//timer.Tick(deltaTime);
+		}
 	}
 	
 	public class MoveToPickupStrategy<T> : IActionStrategy where T : class, IResourceCarrier

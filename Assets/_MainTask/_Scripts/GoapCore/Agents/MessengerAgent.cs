@@ -63,7 +63,7 @@ namespace GOAP.Agents
 			
 			if (CurrentResource != null)
 			{
-				if (Vector3.Distance(transform.position, CurrentResource.Position) < 1f)
+				if (Vector3.Distance(transform.position, CurrentResource.Position) < 3f)
 				{
 					DropResource();
 				}

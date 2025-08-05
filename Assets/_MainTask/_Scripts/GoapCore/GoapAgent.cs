@@ -8,7 +8,6 @@ namespace GOAP
 {
 	public abstract class GoapAgent : MonoBehaviour
 	{
-		public bool IsAvailable => currentAction == null || currentAction.Name == "Relax";
 		
 		protected NavMeshAgent navMeshAgent;
 		protected Rigidbody rb;
@@ -88,6 +87,25 @@ namespace GOAP
 			}
 		}
 
+		private void CalculatePlane()
+		{
+			var priorityLevel = currentGoal?.Priority ?? 0;
+		
+			HashSet<AgentGoal> goalsToCheck = goals;
+		
+			if (currentGoal != null)
+			{
+				Debug.Log($"{name}: Current goal exists, cheking goals with higher priority");
+				goalsToCheck = new HashSet<AgentGoal>(goals.Where(g => g.Priority > priorityLevel));
+			}
+			
+			var potentialPlan = gPlanner.Plan(this, goalsToCheck, lastGoal);
+			if (potentialPlan != null)
+			{
+				actionPlan = potentialPlan;
+			}
+		}
+		
 		// private void CalculatePlane()
 		// {
 		// 	var priorityLevel = currentGoal?.Priority ?? 0;
@@ -96,46 +114,27 @@ namespace GOAP
 		//
 		// 	if (currentGoal != null)
 		// 	{
-		// 		Debug.Log($"{name}: Current goal exists, cheking goals with higher priority");
-		// 		goalsToCheck = new HashSet<AgentGoal>(goals.Where(g => g.Priority > priorityLevel));
+		// 		Debug.Log($"{name}: Current goal exists, checking goals with higher priority");
+		// 		var higherPriorityGoals = goals.Where(g => g.Priority > priorityLevel).ToHashSet();
+  //       
+		// 		// If no higher priority goals exist, use all goals
+		// 		goalsToCheck = higherPriorityGoals.Count > 0 ? higherPriorityGoals : goals;
 		// 	}
-		// 	
-		// 	var potentialPlan = gPlanner.Plan(this, goalsToCheck, lastGoal);
-		// 	if (potentialPlan != null)
+  //   
+		// 	// Add null check to prevent the ArgumentNullException
+		// 	if (goalsToCheck != null && goalsToCheck.Count > 0)
 		// 	{
-		// 		actionPlan = potentialPlan;
+		// 		var potentialPlan = gPlanner.Plan(this, goalsToCheck, lastGoal);
+		// 		if (potentialPlan != null)
+		// 		{
+		// 			actionPlan = potentialPlan;
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		Debug.LogWarning($"{name}: No goals available for planning");
 		// 	}
 		// }
-		
-		private void CalculatePlane()
-		{
-			var priorityLevel = currentGoal?.Priority ?? 0;
-
-			HashSet<AgentGoal> goalsToCheck = goals;
-
-			if (currentGoal != null)
-			{
-				Debug.Log($"{name}: Current goal exists, checking goals with higher priority");
-				var higherPriorityGoals = goals.Where(g => g.Priority > priorityLevel).ToHashSet();
-        
-				// If no higher priority goals exist, use all goals
-				goalsToCheck = higherPriorityGoals.Count > 0 ? higherPriorityGoals : goals;
-			}
-    
-			// Add null check to prevent the ArgumentNullException
-			if (goalsToCheck != null && goalsToCheck.Count > 0)
-			{
-				var potentialPlan = gPlanner.Plan(this, goalsToCheck, lastGoal);
-				if (potentialPlan != null)
-				{
-					actionPlan = potentialPlan;
-				}
-			}
-			else
-			{
-				Debug.LogWarning($"{name}: No goals available for planning");
-			}
-		}
 
 	}
 }

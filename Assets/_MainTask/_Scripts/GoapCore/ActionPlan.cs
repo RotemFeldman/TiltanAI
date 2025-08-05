@@ -46,7 +46,7 @@ namespace GOAP
             var orderedActions = actions.OrderBy(a => a.Cost);
             
             foreach (var action in orderedActions) {
-                var requiredEffects = parent.RequiredEffects;
+                var requiredEffects = new HashSet<AgentBelief>(parent.RequiredEffects);
                 
                 // Remove any effects that evaluate to true, there is no action to take
                 requiredEffects.RemoveWhere(b => b.Evaluate());
@@ -55,9 +55,13 @@ namespace GOAP
                 if (requiredEffects.Count == 0) {
                     return true;
                 }
-    
+
+                // Check if this action can help with any required effects
                 if (action.Effects.Any(requiredEffects.Contains)) {
                     var newRequiredEffects = new HashSet<AgentBelief>(requiredEffects);
+                    
+                    // IMPORTANT: Remove effects that this action claims to produce
+                    // even if they can't actually be satisfied (for fallback actions)
                     newRequiredEffects.ExceptWith(action.Effects);
                     newRequiredEffects.UnionWith(action.Preconditions);
                     
@@ -66,15 +70,18 @@ namespace GOAP
                     
                     var newNode = new Node(parent, action, newRequiredEffects, parent.Cost + action.Cost);
                     
-                    // Explore the new node recursively
-                    if (FindPath(newNode, newAvailableActions)) {
+                    // Check if all preconditions are satisfied for this action
+                    bool canPerformAction = action.Preconditions.All(p => p.Evaluate());
+                    
+                    // If this action can be performed and solves our requirements, accept it
+                    if (canPerformAction && newRequiredEffects.Count == 0) {
                         parent.Leaves.Add(newNode);
-                        newRequiredEffects.ExceptWith(newNode.Action.Preconditions);
+                        return true;
                     }
                     
-                    // If all effects at this depth have been satisfied, return true
-                    if (newRequiredEffects.Count == 0) {
-                        return true;
+                    // Otherwise, explore deeper if possible
+                    if (FindPath(newNode, newAvailableActions)) {
+                        parent.Leaves.Add(newNode);
                     }
                 }
             }
@@ -113,4 +120,3 @@ namespace GOAP
         }
     }
 }
-

@@ -37,9 +37,9 @@ namespace GOAP.Agents
 			BeliefFactory factory = new BeliefFactory(this, beliefs);
 			
 			factory.AddBelief(NOTHING, () => false);
-			factory.AddBelief(CAN_BUILD_STAFF, () => resourceManager.OakLogsEffectiveCount >= 5 && resourceManager.IronIngotsEffectiveCount >= 2);
+			factory.AddBelief(CAN_BUILD_STAFF, () => resourceManager.OakLogsEffectiveCount >= 5 && resourceManager.IronIngotsEffectiveCount >= 3);
 			factory.AddBelief(HAS_STAFF, () => resourceManager.EnchantedStaff);
-			factory.AddBelief(CAN_BUILD_SHIELD, () => resourceManager.CrystalsEffectiveCount >= 4 && resourceManager.IronIngotsEffectiveCount >= 3);
+			factory.AddBelief(CAN_BUILD_SHIELD, () => resourceManager.CrystalsEffectiveCount >= 4 && resourceManager.IronIngotsEffectiveCount >= 2);
 			factory.AddBelief(HAS_SHIELD, () => resourceManager.RunedShield);
 			factory.AddBelief(HAS_ARTIFACT, () => resourceManager.CombinedArtifact);
 			
