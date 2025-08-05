@@ -9,6 +9,7 @@ using UnityEngine.AI;
 
 namespace GOAP.Agents
 {
+	[DefaultExecutionOrder(10)]
 	public class VillagerAgent : GoapAgent , IResourceCarrier
 	{
 		[field:SerializeField] public ResourcePickup TargetResourcePickup { get; set; }
@@ -55,7 +56,7 @@ namespace GOAP.Agents
 			
 			if (CurrentResource != null)
 			{
-				if (Vector3.Distance(transform.position, buildLocation.transform.position) < 3f)
+				if (Vector3.Distance(transform.position, CurrentResource.Position) < 1f)
 				{
 					DropResource();
 				}
@@ -72,7 +73,7 @@ namespace GOAP.Agents
 
 		public void DropResource()
 		{
-			GoapResourceManager.Instance.AddGatheredResource(CurrentResource.ResourceType);
+			resourceManager.AddGatheredResource(CurrentResource.ResourceType);
 			Destroy(CurrentResource.gameObject);
 			CurrentResource = null;
 			TargetResourcePickup = null;
@@ -106,7 +107,7 @@ namespace GOAP.Agents
 			actions = new();
 
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new IdleStrategy(5f))
+				.WithStrategy(new WanderStrategy(navMeshAgent,5f))
 				.AddEffect(beliefs[NOTHING])
 				.Build());
 
@@ -155,6 +156,7 @@ namespace GOAP.Agents
 				.WithStrategy(new DeliverResourceStrategy<VillagerAgent>(this))
 				.WithCost(10)
 				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION]) 
+				.AddEffect(beliefs[HOLDING_RESOURCE])
 				.AddEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
 				.AddEffect(beliefs[ENOUGH_CRYSTALS_COLLECTED])
 				.AddEffect(beliefs[ENOUGH_IRON_COLLECTED])
@@ -188,20 +190,20 @@ namespace GOAP.Agents
 
 
 			// Delivery goals 
-			goals.Add(new AgentGoal.Builder("Collect Oak Logs")
-				.WithPriority(20)
-				.WithDesiredEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
-				.Build());
-				
-			goals.Add(new AgentGoal.Builder("Collect Crystals")
-				.WithPriority(15)
-				.WithDesiredEffect(beliefs[ENOUGH_CRYSTALS_COLLECTED])
-				.Build());
-				
-			goals.Add(new AgentGoal.Builder("Collect Iron")
-				.WithPriority(10)
-				.WithDesiredEffect(beliefs[ENOUGH_IRON_COLLECTED])
-				.Build());
+			// goals.Add(new AgentGoal.Builder("Collect Oak Logs")
+			// 	.WithPriority(20)
+			// 	.WithDesiredEffect(beliefs[ENOUGH_OAK_LOGS_COLLECTED])
+			// 	.Build());
+			// 	
+			// goals.Add(new AgentGoal.Builder("Collect Crystals")
+			// 	.WithPriority(15)
+			// 	.WithDesiredEffect(beliefs[ENOUGH_CRYSTALS_COLLECTED])
+			// 	.Build());
+			// 	
+			// goals.Add(new AgentGoal.Builder("Collect Iron")
+			// 	.WithPriority(10)
+			// 	.WithDesiredEffect(beliefs[ENOUGH_IRON_COLLECTED])
+			// 	.Build());
 
 			// Finding goals 
 			goals.Add(new AgentGoal.Builder("Find Oak Logs")

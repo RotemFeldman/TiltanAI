@@ -2,7 +2,7 @@
 
 namespace GOAP
 {
-	[DefaultExecutionOrder(-1)]
+	[DefaultExecutionOrder(0)]
 	public class BuildLocation : MonoBehaviour
 	{
 		private static BuildLocation instance;

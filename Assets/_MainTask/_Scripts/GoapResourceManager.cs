@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder(0)]
 public class GoapResourceManager : MonoBehaviour
 {
 	public static GoapResourceManager Instance;

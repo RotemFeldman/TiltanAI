@@ -242,7 +242,7 @@ namespace GOAP
 		readonly T agent;
 
 		public bool CanPerform => !Complete;
-		public bool Complete { get; private set; }//agent.CurrentResource == null;
+		public bool Complete => true;// { get; private set; }//agent.CurrentResource == null;
 		
 		public DeliverResourceStrategy( T agent)
 		{
@@ -251,8 +251,8 @@ namespace GOAP
 
 		public void Update(float deltaTime)
 		{
-			agent.DropResource();
-			Complete = true;
+			//agent.DropResource();
+			//Complete = true;
 		}
 	}
 
@@ -261,7 +261,7 @@ namespace GOAP
 		readonly T agent;
 
 		public bool CanPerform => !Complete;
-		public bool Complete { get; private set; } = false;
+		public bool Complete => true;// { get; private set; } = false;
 		
 		public PickupResourceStrategy(T agent)
 		{
@@ -283,13 +283,13 @@ namespace GOAP
 			if (agent.TargetResourcePickup == null)
 			{
 				Debug.LogError($"TargetResourcePickup is null! Cannot pickup resource.");
-				Complete = true;
+				//Complete = true;
 				return;
 			}
         
-			agent.PickupResource(agent.TargetResourcePickup);
+			//agent.PickupResource(agent.TargetResourcePickup);
 			Debug.Log($"PickupResource called, setting Complete = true");
-			Complete = true;
+			//Complete = true;
 		}
     
 		public void Stop()
@@ -317,6 +317,7 @@ namespace GOAP
 			if (pickup)
 			{
 				agent.TargetResourcePickup = resource;
+				resource.Reserve();
 			}
 			Complete = true;
 		}

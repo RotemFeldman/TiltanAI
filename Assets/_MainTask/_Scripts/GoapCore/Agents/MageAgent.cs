@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 namespace GOAP.Agents
 {
+	[DefaultExecutionOrder(10)]
 	public class MageAgent : GoapAgent
 	{
 		private const string NOTHING = "Nothing";
@@ -54,7 +55,7 @@ namespace GOAP.Agents
 			actions = new();
 			
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new IdleStrategy(5f))
+				.WithStrategy(new WanderStrategy(navMeshAgent,5f))
 				.AddEffect(beliefs[NOTHING])
 				.Build());
 
@@ -110,6 +111,16 @@ namespace GOAP.Agents
 			goals.Add(new AgentGoal.Builder("Build Combined Artifact")
 				.WithPriority(999)
 				.WithDesiredEffect(beliefs[HAS_ARTIFACT])
+				.Build());
+
+			goals.Add(new AgentGoal.Builder("Build Runed Shield")
+				.WithPriority(998)
+				.WithDesiredEffect(beliefs[HAS_SHIELD])
+				.Build());
+
+			goals.Add(new AgentGoal.Builder("Build Enchanted Staff")
+				.WithPriority(998)
+				.WithDesiredEffect(beliefs[HAS_STAFF])
 				.Build());
 
 			// Resource finding goals - Very low priority for mage

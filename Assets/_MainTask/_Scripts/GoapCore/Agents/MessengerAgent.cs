@@ -7,6 +7,7 @@ using UnityEngine.PlayerLoop;
 
 namespace GOAP.Agents
 {
+	[DefaultExecutionOrder(10)]
 	public class MessengerAgent : GoapAgent , IResourceCarrier
 	{
 	 	[field:SerializeField] public ResourcePickup TargetResourcePickup { get; set; }
@@ -72,7 +73,7 @@ namespace GOAP.Agents
 
 		public void DropResource()
 		{
-			GoapResourceManager.Instance.AddGatheredResource(CurrentResource.ResourceType);
+			resourceManager.AddGatheredResource(CurrentResource.ResourceType);
 			Destroy(CurrentResource.gameObject);
 			CurrentResource = null;
 		}
@@ -105,7 +106,7 @@ namespace GOAP.Agents
 			actions = new();
 
 			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new IdleStrategy(5f))
+				.WithStrategy(new WanderStrategy(navMeshAgent,5f))
 				.WithCost(15)
 				.AddEffect(beliefs[NOTHING])
 				.Build());
