@@ -16,9 +16,11 @@ GameObject:
   - component: {fileID: 839557426428083400}
   - component: {fileID: 261598446580888038}
   - component: {fileID: 6218813594161386882}
+  - component: {fileID: -7224075230656134154}
+  - component: {fileID: 5648164690370037642}
   m_Layer: 0
   m_Name: Villager
-  m_TagString: Untagged
+  m_TagString: Villager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793952145520451f9041d752f3037d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TargetResourcePickup>k__BackingField: {fileID: 0}
+  <CurrentResource>k__BackingField: {fileID: 0}
   resourceManager: {fileID: 0}
+  buildLocation: {fileID: 0}
 --- !u!114 &6218813594161386882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,3 +187,30 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
+--- !u!114 &-7224075230656134154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e0b02b4f3085e4c97f33c519da4ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+--- !u!114 &5648164690370037642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453c42b6c53c0db4a8594ec059f287fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupPrefab: {fileID: 0}

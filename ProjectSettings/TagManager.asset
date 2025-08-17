@@ -19,6 +19,10 @@ TagManager:
   - Crystals
   - IronIngot
   - ChopedTree
+  - Villager
+  - Messenger
+  - Mage
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -9,18 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8580274270464581138}
-  - component: {fileID: 2841365702834923246}
   - component: {fileID: 2271395259342948248}
   - component: {fileID: 7701561386353125794}
   - component: {fileID: 767909113185040335}
   - component: {fileID: 8514019006077310002}
-  - component: {fileID: 1117033391245189699}
-  - component: {fileID: 4255356316259390558}
   - component: {fileID: 6040794120068381506}
-  - component: {fileID: 3735641149121728478}
+  - component: {fileID: 6977373614754953980}
   m_Layer: 0
-  m_Name: Mage
-  m_TagString: Mage
+  m_Name: Enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,18 +37,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2841365702834923246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ecaedeb6f8b43598c15fd265c6e3bcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &2271395259342948248
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb32492002291c847b8e970713e19188, type: 2}
+  - {fileID: 2100000, guid: 8265844ead1956c4386d324bb04c7727, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -139,9 +124,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 720
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -150,41 +135,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1117033391245189699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cb9fdba4cc7426d93b4bbde4ab2475b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionRadius: 13
-  timerInterval: 1
-  relevantTags:
-  - ChopedTree
-  - Crystals
-  - IronIngot
-  resourceLayer:
-    serializedVersion: 2
-    m_Bits: 32768
---- !u!114 &4255356316259390558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fdb2c75b9764b86afe89de56d467330, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceManager: {fileID: 0}
-  buildLocation: {fileID: 0}
 --- !u!114 &6040794120068381506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 0
---- !u!114 &3735641149121728478
+--- !u!114 &6977373614754953980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,7 +158,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2626630352304112364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453c42b6c53c0db4a8594ec059f287fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 047425b6e1ffb754ca82084dca3c0566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupPrefab: {fileID: 0}
+  config: {fileID: 0}
+  enemyTag: Enemy
+  targetTags:
+  - Villager
+  - Mage
+  - Messenger
