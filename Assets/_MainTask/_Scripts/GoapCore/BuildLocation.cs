@@ -13,7 +13,7 @@ namespace GOAP
 			{
 				if (instance == null)
 				{
-					instance = FindObjectOfType<BuildLocation>();
+					instance = FindFirstObjectByType<BuildLocation>();
 				}
 				return instance;
 			}

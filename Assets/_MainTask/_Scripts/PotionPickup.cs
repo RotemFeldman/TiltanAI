@@ -3,7 +3,7 @@ using UnityEngine;
 public class PotionPickup : MonoBehaviour
 {
     // Example: heal or buff; tweak as needed
-    public float heal = 30f;
+    public float heal = 35f;
 
     void OnTriggerEnter(Collider other)
     {

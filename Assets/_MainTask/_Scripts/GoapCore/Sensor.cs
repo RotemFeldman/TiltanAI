@@ -34,7 +34,7 @@ namespace GOAP
 			resourceManager = GoapResourceManager.Instance;
 			if (resourceManager == null)
 			{
-				resourceManager = FindObjectOfType<GoapResourceManager>();
+				resourceManager = FindFirstObjectByType<GoapResourceManager>();
 			}
 		}
 

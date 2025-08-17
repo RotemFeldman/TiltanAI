@@ -5,7 +5,7 @@ using System.Linq;
 public class EnemySensors : MonoBehaviour
 {
     [Header("Sense")]
-    public float senseRadius = 12f;
+    public float senseRadius = 10f;
     public LayerMask agentMask;
     public LayerMask potionMask;
     public string[] targetTags = { "Villager", "Mage", "Messenger" };
@@ -31,7 +31,7 @@ public class EnemySensors : MonoBehaviour
     void Awake()
     {
         // Provide sane defaults if not set in Inspector
-        if (agentMask == 0)  agentMask  = LayerMask.GetMask("Agents");
+        if (agentMask == 0)  agentMask  = LayerMask.GetMask("Allies");
         if (potionMask == 0) potionMask = LayerMask.GetMask("Potion");
     }
 

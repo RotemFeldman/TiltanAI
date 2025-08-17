@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: 101954775140798702}
   - component: {fileID: -721906755949995478}
   - component: {fileID: -55671772010906928}
-  m_Layer: 8
+  - component: {fileID: 4832917605609645392}
+  m_Layer: 14
   m_Name: Messenger
   m_TagString: Messenger
   m_Icon: {fileID: 0}
@@ -214,3 +215,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &4832917605609645392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177980890516117588}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9851308daf5484087730450dfffe09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100

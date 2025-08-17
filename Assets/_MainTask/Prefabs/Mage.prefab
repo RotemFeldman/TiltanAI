@@ -20,7 +20,13 @@ GameObject:
   - component: {fileID: 3735641149121728478}
   - component: {fileID: 5779075627108783174}
   - component: {fileID: 2449412512164157720}
-  m_Layer: 8
+  - component: {fileID: -9004350357378679642}
+  - component: {fileID: -8900872724583270346}
+  - component: {fileID: 4133628724644296139}
+  - component: {fileID: 5697435346487293728}
+  - component: {fileID: 7543032087771217967}
+  - component: {fileID: 2125582712396520534}
+  m_Layer: 14
   m_Name: Mage
   m_TagString: Mage
   m_Icon: {fileID: 0}
@@ -185,8 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fdb2c75b9764b86afe89de56d467330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceManager: {fileID: 0}
-  buildLocation: {fileID: 0}
 --- !u!114 &6040794120068381506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,9 +248,104 @@ MonoBehaviour:
   detectRadius: 8
   enemyMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 131072
   canDrinkPotion: 1
   potionMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65536
   lowHp: 0.35
+--- !u!114 &-9004350357378679642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9851308daf5484087730450dfffe09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+--- !u!114 &-8900872724583270346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4cf09799ba70e24faf71d47a0340090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+--- !u!114 &4133628724644296139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b5b2d012a95cb40a4aea1ce6937e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+--- !u!114 &5697435346487293728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d42295610289942a1fa937e4754622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionCount: 0
+  healAmount: 35
+--- !u!114 &7543032087771217967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80f3629f4e5b624ca9122fd81e7f43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allyMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 131072
+  potionMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  losMask:
+    serializedVersion: 2
+    m_Bits: 262144
+  attackRange: 2.2
+  sightRange: 18
+  senseRange: 8
+  retargetHysteresis: 1.3
+  lostSightCoyoteTime: 1
+--- !u!114 &2125582712396520534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc0c1e688d5efc4fbde78b3e098c110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

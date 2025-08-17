@@ -1,143 +1,161 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using _MainTask._Scripts;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace GOAP.Agents
 {
-	[DefaultExecutionOrder(10)]
-	public class MageAgent : GoapAgent
-	{
-		private const string NOTHING = "Nothing";
-		private const string CAN_BUILD_STAFF = "CanBuildStaff";
-		private const string HAS_STAFF = "HasStaff";
-		private const string CAN_BUILD_SHIELD = "CanBuildShield";
-		private const string HAS_SHIELD = "HasShield";
-		private const string HAS_ARTIFACT = "HasArtifact";
-		
-		// Individual resource finding beliefs
-		private const string ENOUGH_OAK_LOGS_FOUND = "EnoughOakLogsFound";
-		private const string ENOUGH_CRYSTALS_FOUND = "EnoughCrystalsFound";
-		private const string ENOUGH_IRON_FOUND = "EnoughIronFound";
-		
-		private const string NEAR_BUILD_LOCATION = "NearBuildLocation";
-		
-		[SerializeField] GoapResourceManager resourceManager;
-		[SerializeField] Transform buildLocation;
+    [DefaultExecutionOrder(10)]
+    public class MageAgent : GoapAgent
+    {
+        const string NOTHING = "Nothing";
 
-		protected override void Awake()
-		{
-			base.Awake();
-			resourceManager = GoapResourceManager.Instance;
-			buildLocation = BuildLocation.Instance.transform;
-			navMeshAgent = GetComponent<NavMeshAgent>();
-		}
+        // Crafting beliefs (match your resource manager flags)
+        const string ENOUGH_OAK = "EnoughOak";
+        const string ENOUGH_CRYSTAL = "EnoughCrystal";
+        const string ENOUGH_IRON = "EnoughIron";
 
-		protected override void SetupBeliefs()
-		{
-			beliefs = new();
-			BeliefFactory factory = new BeliefFactory(this, beliefs);
-			
-			factory.AddBelief(NOTHING, () => false);
-			factory.AddBelief(CAN_BUILD_STAFF, () => resourceManager.OakLogsEffectiveCount >= 5 && resourceManager.IronIngotsEffectiveCount >= 3);
-			factory.AddBelief(HAS_STAFF, () => resourceManager.EnchantedStaff);
-			factory.AddBelief(CAN_BUILD_SHIELD, () => resourceManager.CrystalsEffectiveCount >= 4 && resourceManager.IronIngotsEffectiveCount >= 2);
-			factory.AddBelief(HAS_SHIELD, () => resourceManager.RunedShield);
-			factory.AddBelief(HAS_ARTIFACT, () => resourceManager.CombinedArtifact);
-			
-			// Split resource finding beliefs
-			factory.AddBelief(ENOUGH_OAK_LOGS_FOUND, () => resourceManager.OakLogsFoundCount >= 5);
-			factory.AddBelief(ENOUGH_CRYSTALS_FOUND, () => resourceManager.CrystalsFoundCount >= 4);
-			factory.AddBelief(ENOUGH_IRON_FOUND, () => resourceManager.IronIngotsFoundCount >= 5);
-			factory.AddBelief(NEAR_BUILD_LOCATION, () => Vector3.Distance(transform.position, buildLocation.position) < 5f);
-		}
+        const string CAN_CRAFT_STAFF = "CanCraftStaff";
+        const string CAN_CRAFT_SHIELD = "CanCraftShield";
+        const string CAN_CRAFT_ARTIFACT = "CanCraftArtifact";
 
-		protected override void SetupActions()
-		{
-			actions = new();
-			
-			actions.Add(new AgentAction.Builder("Relax")
-				.WithStrategy(new WanderStrategy(navMeshAgent,5f))
-				.AddEffect(beliefs[NOTHING])
-				.Build());
+        const string NEAR_BUILD_LOCATION = "NearBuildLocation";
 
-			actions.Add(new AgentAction.Builder("Move To Build Location")
-				.WithStrategy(new MoveToStrategy(navMeshAgent, buildLocation.position))
-				.AddEffect(beliefs[NEAR_BUILD_LOCATION])
-				.Build());
-			
-			// Search actions - Only when necessary
-			actions.Add(new AgentAction.Builder("Search For Oak Logs")
-				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
-				.AddEffect(beliefs[ENOUGH_OAK_LOGS_FOUND])
-				.Build());
-				
-			actions.Add(new AgentAction.Builder("Search For Crystals")
-				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
-				.AddEffect(beliefs[ENOUGH_CRYSTALS_FOUND])
-				.Build());
-				
-			actions.Add(new AgentAction.Builder("Search For Iron")
-				.WithStrategy(new WanderStrategy(navMeshAgent,20f))
-				.AddEffect(beliefs[ENOUGH_IRON_FOUND])
-				.Build());
+        // Combat beliefs
+        const string ENEMY_VISIBLE = "EnemyVisible";
+        const string IN_MELEE_RANGE = "InMeleeRange";
+        const string LOW_HEALTH = "LowHealth";
+        const string HAS_POTION = "HasPotion";
 
-			// Building actions
-			actions.Add(new AgentAction.Builder("Build Enchanted Staff")
-				.WithStrategy(new CraftEnchantedStaffStrategy(resourceManager, 7f))
-				.AddEffect(beliefs[HAS_STAFF])
-				.AddPrecondition(beliefs[CAN_BUILD_STAFF])
-				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
-				.Build());
-			
-			actions.Add(new AgentAction.Builder("Build Runed Shield")
-				.WithStrategy(new CraftRunedShieldStrategy(resourceManager, 10f))
-				.AddEffect(beliefs[HAS_SHIELD])
-				.AddPrecondition(beliefs[CAN_BUILD_SHIELD])
-				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
-				.Build());
+        GoapResourceManager rm;
+        Transform buildLocation;
+        NavMeshAgent nav;
 
-			actions.Add(new AgentAction.Builder("Build Combined Artifact")
-				.WithStrategy(new CraftCombinedArtifactStrategy(resourceManager, 15f))
-				.AddEffect(beliefs[HAS_ARTIFACT])
-				.AddPrecondition(beliefs[HAS_STAFF])
-				.AddPrecondition(beliefs[HAS_SHIELD])
-				.AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
-				.Build());
-		}
+        SimpleAwareness sense;
+        SimpleHealer healer;
+        SimpleCombat combat;
 
-		protected override void SetupGoals()
-		{
-			goals = new();
+        protected override void Awake()
+        {
+            base.Awake();
+            rm = GoapResourceManager.Instance;
+            buildLocation = GOAP.BuildLocation.Instance.transform; // singleton:contentReference[oaicite:13]{index=13}
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            nav = navMeshAgent;
+            sense = GetComponent<SimpleAwareness>();
+            healer = GetComponent<SimpleHealer>();
+            combat = GetComponent<SimpleCombat>();
+        }
 
-			goals.Add(new AgentGoal.Builder("Build Combined Artifact")
-				.WithPriority(999)
-				.WithDesiredEffect(beliefs[HAS_ARTIFACT])
-				.Build());
+        protected override void SetupBeliefs()
+        {
+            beliefs = new();
+            var f = new BeliefFactory(this, beliefs);
 
-			goals.Add(new AgentGoal.Builder("Build Runed Shield")
-				.WithPriority(998)
-				.WithDesiredEffect(beliefs[HAS_SHIELD])
-				.Build());
+            f.AddBelief(NOTHING, () => false);
+            f.AddBelief(NEAR_BUILD_LOCATION, () => Vector3.Distance(buildLocation.position, transform.position) < 4f);
 
-			goals.Add(new AgentGoal.Builder("Build Enchanted Staff")
-				.WithPriority(998)
-				.WithDesiredEffect(beliefs[HAS_STAFF])
-				.Build());
+            // resources
+            f.AddBelief(ENOUGH_OAK,     () => rm.OakLogsGatheredCount   >= 5);
+            f.AddBelief(ENOUGH_CRYSTAL, () => rm.CrystalShardsGatheredCount >= 4);
+            f.AddBelief(ENOUGH_IRON,    () => rm.IronIngotsGatheredCount   >= 5);
 
-			// Resource finding goals - Very low priority for mage
-			goals.Add(new AgentGoal.Builder("Find Oak Logs")
-				.WithPriority(3)
-				.WithDesiredEffect(beliefs[ENOUGH_OAK_LOGS_FOUND])
-				.Build());
-				
-			goals.Add(new AgentGoal.Builder("Find Crystals")
-				.WithPriority(2)
-				.WithDesiredEffect(beliefs[ENOUGH_CRYSTALS_FOUND])
-				.Build());
-				
-			goals.Add(new AgentGoal.Builder("Find Iron")
-				.WithPriority(1)
-				.WithDesiredEffect(beliefs[ENOUGH_IRON_FOUND])
-				.Build());
-		}
-	}
+            // craftability (example logic; adjust if your manager exposes booleans)
+            f.AddBelief(CAN_CRAFT_STAFF,    () => rm.OakLogsGatheredCount >= 5 && rm.IronIngotsGatheredCount >= 3 && !rm.EnchantedStaff);
+            f.AddBelief(CAN_CRAFT_SHIELD,   () => rm.CrystalShardsGatheredCount >= 4 && rm.IronIngotsGatheredCount >= 2 && !rm.RunedShield);
+            f.AddBelief(CAN_CRAFT_ARTIFACT, () => rm.EnchantedStaff && rm.RunedShield && !rm.CombinedArtifact);
+
+            // combat
+            f.AddBelief(ENEMY_VISIBLE, () => sense && sense.Target != null);
+            f.AddBelief(IN_MELEE_RANGE, () => sense && sense.InAttackRange);
+            f.AddBelief(LOW_HEALTH, () => sense && sense.Health01 < 0.4f);
+            f.AddBelief(HAS_POTION, () => healer && healer.HasPotion);
+        }
+
+        protected override void SetupActions()
+        {
+            actions = new();
+
+            actions.Add(new AgentAction.Builder("Relax")
+                .WithStrategy(new WanderStrategy(nav, 20f))
+                .AddEffect(beliefs[NOTHING]).Build());
+
+            // Move to build spot
+            actions.Add(new AgentAction.Builder("Go To Build")
+                .WithStrategy(new MoveToStrategy(nav, buildLocation.position))
+                .AddEffect(beliefs[NEAR_BUILD_LOCATION]).Build());
+
+            // Craft pipelines (use your existing strategies in IActionStrategy.cs):contentReference[oaicite:14]{index=14}
+            actions.Add(new AgentAction.Builder("Craft Enchanted Staff")
+                .WithStrategy(new CraftEnchantedStaffStrategy(rm, 3f))
+                .AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
+                .AddPrecondition(beliefs[CAN_CRAFT_STAFF])
+                .AddEffect(beliefs[CAN_CRAFT_STAFF]).Build());
+
+            actions.Add(new AgentAction.Builder("Craft Runed Shield")
+                .WithStrategy(new CraftRunedShieldStrategy(rm, 3f))
+                .AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
+                .AddPrecondition(beliefs[CAN_CRAFT_SHIELD])
+                .AddEffect(beliefs[CAN_CRAFT_SHIELD]).Build());
+
+            actions.Add(new AgentAction.Builder("Craft Combined Artifact")
+                .WithStrategy(new CraftCombinedArtifactStrategy(rm, 5f))
+                .AddPrecondition(beliefs[NEAR_BUILD_LOCATION])
+                .AddPrecondition(beliefs[CAN_CRAFT_ARTIFACT])
+                .AddEffect(beliefs[CAN_CRAFT_ARTIFACT]).Build());
+
+            // ===== Combat actions (NEW) =====
+            actions.Add(new AgentAction.Builder("Chase Enemy")
+                .WithStrategy(new MoveToDynamicTargetStrategy(nav, () => sense ? sense.Target : null))
+                .AddPrecondition(beliefs[ENEMY_VISIBLE])
+                .AddEffect(beliefs[IN_MELEE_RANGE]).Build());
+
+            actions.Add(new AgentAction.Builder("Melee Attack")
+                .WithStrategy(new MeleeAttackStrategy(sense, combat))
+                .AddPrecondition(beliefs[IN_MELEE_RANGE])
+                .AddEffect(beliefs[ENEMY_VISIBLE]).Build());
+
+            actions.Add(new AgentAction.Builder("Retreat From Threat")
+                .WithStrategy(new RetreatStrategy(GetComponent<NavMovement>(), sense, 1.6f))
+                .AddPrecondition(beliefs[LOW_HEALTH])
+                .AddEffect(beliefs[ENEMY_VISIBLE]).Build());
+
+            actions.Add(new AgentAction.Builder("Drink Potion")
+                .WithStrategy(new DrinkPotionStrategy(healer))
+                .AddPrecondition(beliefs[LOW_HEALTH])
+                .AddPrecondition(beliefs[HAS_POTION])
+                .AddEffect(beliefs[LOW_HEALTH]).Build());
+        }
+
+        protected override void SetupGoals()
+        {
+            goals = new HashSet<AgentGoal>();
+
+            // Combat (NEW – mage survival prioritized highest)
+            goals.Add(new AgentGoal.Builder("Survive")
+                .WithPriority(1200)
+                .WithDesiredEffect(beliefs[LOW_HEALTH]).Build());
+
+            goals.Add(new AgentGoal.Builder("Defend Base")
+                .WithPriority(1100)
+                .WithDesiredEffect(beliefs[ENEMY_VISIBLE]).Build());
+
+            // Crafting (below combat)
+            goals.Add(new AgentGoal.Builder("Build Combined Artifact")
+                .WithPriority(1000)
+                .WithDesiredEffect(beliefs[CAN_CRAFT_ARTIFACT]).Build());
+
+            goals.Add(new AgentGoal.Builder("Build Runed Shield")
+                .WithPriority(900)
+                .WithDesiredEffect(beliefs[CAN_CRAFT_SHIELD]).Build());
+
+            goals.Add(new AgentGoal.Builder("Build Enchanted Staff")
+                .WithPriority(800)
+                .WithDesiredEffect(beliefs[CAN_CRAFT_STAFF]).Build());
+
+            goals.Add(new AgentGoal.Builder("Idle")
+                .WithPriority(1)
+                .WithDesiredEffect(beliefs[NOTHING]).Build());
+        }
+    }
 }

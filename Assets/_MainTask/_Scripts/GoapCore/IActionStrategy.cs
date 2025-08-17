@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using _MainTask._Scripts;
 using GOAP.Agents;
 using GOAP.Interfaces;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace GOAP
 {
@@ -366,6 +368,107 @@ namespace GOAP
 			agent.ResetPath();
 		}
 	}
+	
+	public class MoveToDynamicTargetStrategy : IActionStrategy
+	{
+		readonly NavMeshAgent agent;
+		readonly Func<Transform> getTarget;
+
+		const float updateInterval = 0.15f;
+		const float destMoveThreshold = 0.4f;
+		float lastSetTime;
+		Vector3 lastDest;
+
+		public bool CanPerform => !Complete;
+		public bool Complete => agent.remainingDistance <= Mathf.Max(0.8f, agent.stoppingDistance + 0.2f) && !agent.pathPending;
+
+		public MoveToDynamicTargetStrategy(NavMeshAgent agent, Func<Transform> getTarget)
+		{ this.agent = agent; this.getTarget = getTarget; }
+
+		public void Start() { Update(0); }
+
+		public void Update(float dt)
+		{
+			var t = getTarget();
+			if (!t) { agent.ResetPath(); return; }
+
+			if ((Time.time - lastSetTime) < updateInterval) return;
+			if ((t.position - lastDest).sqrMagnitude < destMoveThreshold * destMoveThreshold) return;
+
+			agent.SetDestination(t.position);
+			lastDest = t.position;
+			lastSetTime = Time.time;
+		}
+
+		public void Stop(){ agent.ResetPath(); }
+	}
+
+	public class MeleeAttackStrategy : IActionStrategy
+	{
+	    readonly IAwareness sense;
+	    readonly ICombat combat;
+	    public bool CanPerform => !Complete;
+	    public bool Complete { get; private set; }
+
+	    public MeleeAttackStrategy(IAwareness sense, ICombat combat)
+	    { this.sense = sense; this.combat = combat; }
+
+	    public void Start(){ Complete = false; }
+
+	    public void Update(float dt)
+	    {
+	        var t = sense.Target;
+	        if (!t) { Complete = true; return; }
+	        if (!sense.InAttackRange) { Complete = true; return; }
+	        combat.Attack(t); // single swing per action
+	        Complete = true;
+	    }
+	}
+
+	public class RetreatStrategy : IActionStrategy
+	{
+	    readonly IMovement move;
+	    readonly IAwareness sense;
+	    readonly float duration;
+	    float t;
+
+	    public bool CanPerform => !Complete;
+	    public bool Complete => t <= 0f;
+
+	    public RetreatStrategy(IMovement move, IAwareness sense, float duration = 1.2f)
+	    { this.move = move; this.sense = sense; this.duration = duration; }
+
+	    public void Start(){ t = duration; move.RetreatFrom(sense.ThreatCenter); }
+	    public void Update(float dt){ t -= dt; if (t>0f) move.RetreatFrom(sense.ThreatCenter); }
+	}
+
+	public class DrinkPotionStrategy : IActionStrategy
+	{
+	    readonly IHealer healer;
+	    public bool CanPerform => !Complete;
+	    public bool Complete { get; private set; }
+	    public DrinkPotionStrategy(IHealer healer){ this.healer = healer; }
+	    public void Start(){ Complete = healer?.Drink() ?? true; } // one-shot
+	}
+	
+	public class MoveToBuildLocationStrategy : IActionStrategy
+	{
+		readonly UnityEngine.AI.NavMeshAgent agent;
+		bool started;
+		public bool CanPerform => !Complete;
+		public bool Complete => agent.remainingDistance <= 1.5f && !agent.pathPending;
+		public MoveToBuildLocationStrategy(UnityEngine.AI.NavMeshAgent agent){ this.agent = agent; }
+		public void Start()
+		{
+			started = true;
+			var b = GOAP.BuildLocation.Instance;
+			if (b) agent.SetDestination(b.transform.position);
+			else agent.ResetPath();
+		}
+		public void Update(float dt){ if (!started) Start(); }
+		public void Stop(){ agent.ResetPath(); }
+	}
+
 
 	// public class SearchForResourceStrategy<T> : IActionStrategy where T : GoapAgent
 	// {

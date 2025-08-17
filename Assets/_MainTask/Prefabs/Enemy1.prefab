@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6977373614754953980}
   - component: {fileID: 5505001691599791055}
   - component: {fileID: 1252096661719906958}
-  m_Layer: 8
+  m_Layer: 17
   m_Name: Enemy1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brainJson: {fileID: 0}
   replanInterval: 0.25
-  retreatDistance: 5
+  retreatDistance: 2
   chaseStopDistance: 0.3
 --- !u!114 &5505001691599791055
 MonoBehaviour:
@@ -182,7 +182,7 @@ MonoBehaviour:
   senseRadius: 10
   agentMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 16640
   potionMask:
     serializedVersion: 2
     m_Bits: 65536
@@ -207,6 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd2938ebe6088f74eb2717ec9c7c6cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.8
+  attackRange: 2
   attackCooldown: 1
-  damage: 12
+  damage: 20
