@@ -18,7 +18,9 @@ GameObject:
   - component: {fileID: 6218813594161386882}
   - component: {fileID: -7224075230656134154}
   - component: {fileID: 5648164690370037642}
-  m_Layer: 0
+  - component: {fileID: 2261937218724801148}
+  - component: {fileID: -6954902299781931861}
+  m_Layer: 8
   m_Name: Villager
   m_TagString: Villager
   m_Icon: {fileID: 0}
@@ -214,3 +216,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &2261937218724801148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2938ebe6088f74eb2717ec9c7c6cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 1.8
+  attackCooldown: 2
+  damage: 6
+--- !u!114 &-6954902299781931861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6e1ba29e05ce74490d2e73ac3623ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRadius: 8
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  canDrinkPotion: 1
+  potionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lowHp: 0.35

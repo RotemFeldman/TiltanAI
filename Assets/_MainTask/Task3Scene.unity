@@ -2893,7 +2893,12 @@ MonoBehaviour:
   - {fileID: 230120962}
   - {fileID: 245298145}
   - {fileID: 546864033}
-  configs: []
+  brainFiles:
+  - {fileID: 4900000, guid: 09c15ccea9e60d343b44e1d576444ead, type: 3}
+  - {fileID: 4900000, guid: f34df96804063d94d803def71def10a4, type: 3}
+  - {fileID: 4900000, guid: f3c8276446dc8154aba7a89610221976, type: 3}
+  - {fileID: 4900000, guid: 366d0a77fffb1ee4d996383c492df2a1, type: 3}
+  - {fileID: 4900000, guid: df9db20d4f1a5f74ba538611473f7efd, type: 3}
   enemyToFriendlyMultiplier: 1.25
   minEnemies: 5
   maxEnemies: 50
@@ -16994,10 +16999,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2626630352304112364, guid: 566bdef8a2ac6504080fd087d753ce2a, type: 3}
       propertyPath: m_Name
-      value: Mage
-      objectReference: {fileID: 0}
-    - target: {fileID: 2626630352304112364, guid: 566bdef8a2ac6504080fd087d753ce2a, type: 3}
-      propertyPath: m_TagString
       value: Mage
       objectReference: {fileID: 0}
     - target: {fileID: 8580274270464581138, guid: 566bdef8a2ac6504080fd087d753ce2a, type: 3}

@@ -8,8 +8,8 @@ public class EnemySpawnManager : MonoBehaviour
     public GameObject enemyPrefab;                // must have NavMeshAgent + EnemyController
     public List<Transform> spawnPoints = new();   // random among these
 
-    [Header("Enemy Brains (configs)")]
-    public List<EnemyBehaviorConfig> configs = new(); // pick randomly per spawn
+    [Header("Enemy Brains (JSON)")]
+    public List<TextAsset> brainFiles = new(); // drag your .json assets here
 
     [Header("Counts")]
     public float enemyToFriendlyMultiplier = 1.25f;
@@ -57,10 +57,10 @@ public class EnemySpawnManager : MonoBehaviour
         if (!NavMesh.SamplePosition(sp.position, out var hit, 3f, NavMesh.AllAreas)) return;
 
         var go = Instantiate(enemyPrefab, hit.position, Quaternion.identity);
-        var ctrl = go.GetComponent<EnemyController>();
-        if (ctrl != null && configs.Count > 0)
+        var ctrl = go.GetComponent<EnemyNNController>();
+        if (ctrl != null && brainFiles.Count > 0)
         {
-            ctrl.config = configs[Random.Range(0, configs.Count)];
+            ctrl.brainJson = brainFiles[Random.Range(0, brainFiles.Count)];
         }
 
         _live.Add(go);

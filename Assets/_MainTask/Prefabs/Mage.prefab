@@ -18,7 +18,9 @@ GameObject:
   - component: {fileID: 4255356316259390558}
   - component: {fileID: 6040794120068381506}
   - component: {fileID: 3735641149121728478}
-  m_Layer: 0
+  - component: {fileID: 5779075627108783174}
+  - component: {fileID: 2449412512164157720}
+  m_Layer: 8
   m_Name: Mage
   m_TagString: Mage
   m_Icon: {fileID: 0}
@@ -212,3 +214,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &5779075627108783174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd2938ebe6088f74eb2717ec9c7c6cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 1.8
+  attackCooldown: 3
+  damage: 8
+--- !u!114 &2449412512164157720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6e1ba29e05ce74490d2e73ac3623ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRadius: 8
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  canDrinkPotion: 1
+  potionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lowHp: 0.35
