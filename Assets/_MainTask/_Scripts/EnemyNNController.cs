@@ -79,7 +79,18 @@ public class EnemyNNController : MonoBehaviour
         {
             if (!brainBrokenLogged)
             {
-                Debug.LogError($"{name}: Invalid brain JSON (layers missing/too short). Falling back to heuristic chase.");
+                Debug.LogError($"{name}: Invalid brain JSON '{brainJson.name}' (layers missing/too short). Falling back to heuristic chase.");
+                brainBrokenLogged = true;
+            }
+            return;
+        }
+
+        // Validate weights/biases shape and nulls
+        if (!ValidateBrain(brain, out string whyBad))
+        {
+            if (!brainBrokenLogged)
+            {
+                Debug.LogError($"{name}: Brain JSON '{brainJson.name}' shape invalid: {whyBad}. Falling back to heuristic chase.");
                 brainBrokenLogged = true;
             }
             return;
@@ -90,7 +101,7 @@ public class EnemyNNController : MonoBehaviour
         {
             if (!brainBrokenLogged)
             {
-                Debug.LogError($"{name}: Brain output size is invalid ({outSize}). Falling back to heuristic chase.");
+                Debug.LogError($"{name}: Brain '{brainJson.name}' output size is invalid ({outSize}). Falling back to heuristic chase.");
                 brainBrokenLogged = true;
             }
             return;
@@ -100,12 +111,76 @@ public class EnemyNNController : MonoBehaviour
         initialized = true;
     }
 
+    // Verifies jagged-array presence and exact sizes to avoid NullReference/Index issues in Forward
+    bool ValidateBrain(NeuralNetDef net, out string error)
+    {
+        error = null;
+
+        if (net.weights == null) { error = "weights array is null"; return false; }
+        if (net.biases  == null) { error = "biases array is null";  return false; }
+
+        int layersCount = net.layers.Length;
+        int expectedLayers = layersCount - 1;
+
+        if (net.weights.Length != expectedLayers)
+        {
+            error = $"weights length {net.weights.Length} != expected {expectedLayers}";
+            return false;
+        }
+        if (net.biases.Length != expectedLayers)
+        {
+            error = $"biases length {net.biases.Length} != expected {expectedLayers}";
+            return false;
+        }
+
+        for (int l = 0; l < expectedLayers; l++)
+        {
+            int inN  = net.layers[l];
+            int outN = net.layers[l + 1];
+
+            var W = net.weights[l];
+            var b = net.biases[l];
+
+            if (W == null) { error = $"weights[{l}] is null"; return false; }
+            if (b == null) { error = $"biases[{l}] is null";  return false; }
+
+            if (W.Length != outN)
+            {
+                error = $"weights[{l}].Length {W.Length} != outN {outN}";
+                return false;
+            }
+            if (b.Length != outN)
+            {
+                error = $"biases[{l}].Length {b.Length} != outN {outN}";
+                return false;
+            }
+
+            for (int j = 0; j < outN; j++)
+            {
+                var row = W[j];
+                if (row == null)
+                {
+                    error = $"weights[{l}][{j}] row is null";
+                    return false;
+                }
+                if (row.Length != inN)
+                {
+                    error = $"weights[{l}][{j}].Length {row.Length} != inN {inN}";
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     void Update()
     {
         if (!initialized)
         {
             TryInitBrain();
-            if (!initialized) return; // still waiting for brain assignment
+            // Do NOT return early; allow heuristic fallback below even if init failed
+            // if (!initialized) return; // <- remove this return
         }
 
         timer -= Time.deltaTime;
