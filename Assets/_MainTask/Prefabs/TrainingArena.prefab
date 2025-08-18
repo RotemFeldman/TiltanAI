@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7681096794788769291
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2819698615267351212}
+  - component: {fileID: 6556761428808494604}
+  m_Layer: 0
+  m_Name: TrainingArena
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2819698615267351212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681096794788769291}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.939076, y: 46.298206, z: 35.02026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6556761428808494604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681096794788769291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1422ebba1076aff4188b4daedf1ca9f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 3120019152893186261, guid: 83861f2c4a735de4d944dfece44ce314, type: 3}
+  dummyVillagerPrefab: {fileID: 1927366732531790013, guid: 52c504297a1c3df4bbecd8bdf51d9aaa, type: 3}
+  potionPrefab: {fileID: 8537660381750754365, guid: 4c9a4ea042c31d8479c10f7ac06b459e, type: 3}
+  buildLocationPrefab: {fileID: 244991565419161341, guid: 02c60d9bbb387844da26fefa1ad6940f, type: 3}
+  useRealVillagerPrefabs: 1
+  realVillagerPrefabs:
+  - {fileID: 1927366732531790013, guid: 52c504297a1c3df4bbecd8bdf51d9aaa, type: 3}
+  - {fileID: 2177980890516117588, guid: 1685ad7f7fd9f5448888f70e5fa0e279, type: 3}
+  - {fileID: 2626630352304112364, guid: 566bdef8a2ac6504080fd087d753ce2a, type: 3}
+  minVillagers: 1
+  maxVillagers: 3
+  minPotions: 1
+  maxPotions: 3
+  arenaRadius: 18
+  alliesLayerName: Allies
+  enemiesLayerName: Enemies
+  potionsLayerName: Potions
+  losBlockersLayerName: LOS_Blockers
+  enemyHPMin01: 0.7
+  enemySpeed: 4.25
+  enemyAccel: 14
+  enemyAngular: 720
+  enemyAttackRange: 2.2
+  enemyAttackCooldown: 0.8

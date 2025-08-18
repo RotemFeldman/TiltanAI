@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 6894463532749947851}
   - component: {fileID: 4232819195170757355}
   - component: {fileID: 101954775140798702}
-  - component: {fileID: -721906755949995478}
   - component: {fileID: -55671772010906928}
-  m_Layer: 0
+  - component: {fileID: 7411389731263470732}
+  - component: {fileID: 5395995936765288394}
+  m_Layer: 14
   m_Name: Messenger
   m_TagString: Messenger
   m_Icon: {fileID: 0}
@@ -187,20 +188,6 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &-721906755949995478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2177980890516117588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e0b02b4f3085e4c97f33c519da4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
 --- !u!114 &-55671772010906928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +201,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &7411389731263470732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177980890516117588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff0230378ea7c44e9b60349fc1da0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+  destroyOnDeath: 1
+  destroyDelay: 0
+--- !u!114 &5395995936765288394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2177980890516117588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29c0db3f92698b4c90db87a3f675b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0

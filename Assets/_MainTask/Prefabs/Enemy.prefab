@@ -13,9 +13,17 @@ GameObject:
   - component: {fileID: 7701561386353125794}
   - component: {fileID: 767909113185040335}
   - component: {fileID: 8514019006077310002}
-  - component: {fileID: 6040794120068381506}
-  - component: {fileID: 6977373614754953980}
-  m_Layer: 0
+  - component: {fileID: 4584117227353138155}
+  - component: {fileID: 6724347092116114163}
+  - component: {fileID: -3258614777274676583}
+  - component: {fileID: 9003589803230836289}
+  - component: {fileID: -3266598086636109738}
+  - component: {fileID: 6838458742305381836}
+  - component: {fileID: -6200312462158142816}
+  - component: {fileID: -1786704641321325806}
+  - component: {fileID: 6729340484097563365}
+  - component: {fileID: 3120019152893186261}
+  m_Layer: 16
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -123,8 +131,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 12
+  m_Speed: 4.25
+  m_Acceleration: 14
   avoidancePriority: 50
   m_AngularSpeed: 720
   m_StoppingDistance: 0
@@ -135,7 +143,32 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6040794120068381506
+--- !u!143 &4584117227353138155
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.4
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6724347092116114163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,12 +177,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2626630352304112364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e0b02b4f3085e4c97f33c519da4ccd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ff0230378ea7c44e9b60349fc1da0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 0
---- !u!114 &6977373614754953980
+  currentHP: 100
+  destroyOnDeath: 1
+  destroyDelay: 0
+--- !u!114 &-3258614777274676583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,12 +193,124 @@ MonoBehaviour:
   m_GameObject: {fileID: 2626630352304112364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 047425b6e1ffb754ca82084dca3c0566, type: 3}
+  m_Script: {fileID: 11500000, guid: b71c86601627a39419ae196272eebd01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 0}
-  enemyTag: Enemy
-  targetTags:
-  - Villager
-  - Mage
-  - Messenger
+  damage: 12
+  attackRange: 2.2
+  cooldown: 0.8
+--- !u!114 &9003589803230836289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbc334ce18fe2746942d9ade95d1915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3266598086636109738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68cb713254201824d9b6684bb84bb716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 35
+--- !u!114 &6838458742305381836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cafb5335a77aadb458b7f7306b8d1af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allyMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  potionMask:
+    serializedVersion: 2
+    m_Bits: 131072
+  losMask:
+    serializedVersion: 2
+    m_Bits: 262144
+  attackRange: 2.2
+  sightRange: 18
+  senseRange: 8
+  retargetHysteresis: 1.3
+  lostSightCoyoteTime: 1
+--- !u!114 &-6200312462158142816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5437fa6beaa367b4097be7a399b19a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1786704641321325806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f6e90e92ad3f74b9617cd5291c12d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSampleDistance: 6
+--- !u!114 &6729340484097563365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29c0db3f92698b4c90db87a3f675b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 1
+--- !u!114 &3120019152893186261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9526912b80d80342bbc1281421c8580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  genome:
+    fitness: 0
+  minActionHold: 0.35
+  switchHysteresis: 0.2
+  defaultInputs: 12
+  defaultHidden: 16
+  defaultOutputs: 5
+  patrolWhenNoTarget: 1
+  forcedPatrolSeconds: 2
+  extraSearchBiasNoTarget: 1
+  idleSearchNudgeInterval: 1.75

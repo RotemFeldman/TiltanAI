@@ -16,9 +16,13 @@ GameObject:
   - component: {fileID: 839557426428083400}
   - component: {fileID: 261598446580888038}
   - component: {fileID: 6218813594161386882}
-  - component: {fileID: -7224075230656134154}
   - component: {fileID: 5648164690370037642}
-  m_Layer: 0
+  - component: {fileID: -98003946473191544}
+  - component: {fileID: -7564656701347959362}
+  - component: {fileID: 2131382453352526867}
+  - component: {fileID: 7196643234270342219}
+  - component: {fileID: 5659922988969227738}
+  m_Layer: 14
   m_Name: Villager
   m_TagString: Villager
   m_Icon: {fileID: 0}
@@ -166,6 +170,16 @@ MonoBehaviour:
   <CurrentResource>k__BackingField: {fileID: 0}
   resourceManager: {fileID: 0}
   buildLocation: {fileID: 0}
+  combat: {fileID: 0}
+  attackRadius: 2.4
+  enemyTag: Enemy
+  enemySenseRange: 15
+  defendRadius: 12
+  lostSightCoyoteTime: 1
+  retargetHysteresis: 1.3
+  woundedThreshold: 0.35
+  retreatSafeDistance: 12
+  healer: {fileID: 0}
 --- !u!114 &6218813594161386882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,20 +201,6 @@ MonoBehaviour:
   resourceLayer:
     serializedVersion: 2
     m_Bits: 32768
---- !u!114 &-7224075230656134154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927366732531790013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e0b02b4f3085e4c97f33c519da4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
 --- !u!114 &5648164690370037642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,3 +214,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &-98003946473191544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff0230378ea7c44e9b60349fc1da0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+  destroyOnDeath: 1
+  destroyDelay: 0
+--- !u!114 &-7564656701347959362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71c86601627a39419ae196272eebd01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 8
+  attackRange: 2.2
+  cooldown: 0.8
+--- !u!114 &2131382453352526867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbc334ce18fe2746942d9ade95d1915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7196643234270342219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29c0db3f92698b4c90db87a3f675b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+--- !u!114 &5659922988969227738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927366732531790013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68cb713254201824d9b6684bb84bb716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 35

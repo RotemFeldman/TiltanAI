@@ -366,6 +366,7 @@ namespace GOAP
 			agent.ResetPath();
 		}
 	}
+	
 
 	// public class SearchForResourceStrategy<T> : IActionStrategy where T : GoapAgent
 	// {

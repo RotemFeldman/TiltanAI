@@ -16,9 +16,12 @@ GameObject:
   - component: {fileID: 8514019006077310002}
   - component: {fileID: 1117033391245189699}
   - component: {fileID: 4255356316259390558}
-  - component: {fileID: 6040794120068381506}
   - component: {fileID: 3735641149121728478}
-  m_Layer: 0
+  - component: {fileID: -6851777556824484116}
+  - component: {fileID: 3539521153587191551}
+  - component: {fileID: 8777214093852189693}
+  - component: {fileID: -2237424931357651727}
+  m_Layer: 14
   m_Name: Mage
   m_TagString: Mage
   m_Icon: {fileID: 0}
@@ -185,20 +188,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceManager: {fileID: 0}
   buildLocation: {fileID: 0}
---- !u!114 &6040794120068381506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626630352304112364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82e0b02b4f3085e4c97f33c519da4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
 --- !u!114 &3735641149121728478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +201,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrefab: {fileID: 0}
+--- !u!114 &-6851777556824484116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff0230378ea7c44e9b60349fc1da0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+  destroyOnDeath: 1
+  destroyDelay: 0
+--- !u!114 &3539521153587191551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71c86601627a39419ae196272eebd01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  attackRange: 2.2
+  cooldown: 0.8
+--- !u!114 &8777214093852189693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbc334ce18fe2746942d9ade95d1915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2237424931357651727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626630352304112364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29c0db3f92698b4c90db87a3f675b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
