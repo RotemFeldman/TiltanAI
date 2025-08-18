@@ -24,6 +24,7 @@ TagManager:
   - Coin
   - Agents
   - Unwalkable
+<<<<<<< Updated upstream
   - 
   - 
   - 
@@ -33,6 +34,17 @@ TagManager:
   - 
   - 
   - 
+=======
+  - NavGrid
+  - 'Oak Logs '
+  - Iron Ingot
+  - Crystals
+  - Allies
+  - Resource
+  - Enemies
+  - Potions
+  - LOS_Blockers
+>>>>>>> Stashed changes
   - 
   - 
   - 
