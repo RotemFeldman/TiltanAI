@@ -30,6 +30,12 @@ public class EnemySensors : MonoBehaviour
 
     void Awake()
     {
+        if (safeHavenTrigger == null)
+        {
+            var sh = FindFirstObjectByType<SafeHaven>();
+            if (sh) safeHavenTrigger = sh.GetComponent<Collider>();
+        }
+        
         // Provide sane defaults if not set in Inspector
         if (agentMask == 0)  agentMask  = LayerMask.GetMask("Agents"); // ensure we see both enemies and opponents
         if (potionMask == 0) potionMask = LayerMask.GetMask("Potion");

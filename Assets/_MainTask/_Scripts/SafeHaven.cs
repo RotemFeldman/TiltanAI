@@ -6,7 +6,7 @@ public class SafeHaven : MonoBehaviour
 {
     public string enemyTag = "Enemy";
     public Transform redirectPoint;   // place just outside the haven
-    public float pushForce = 8f;
+    public float pushForce = 10f;
 
     void Reset() { var c = GetComponent<Collider>(); c.isTrigger = true; }
 
@@ -20,15 +20,36 @@ public class SafeHaven : MonoBehaviour
         var agent = other.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
-            if (redirectPoint != null) agent.SetDestination(redirectPoint.position);
-            else
-            {
-                var dir = (other.transform.position - transform.position).normalized;
-                agent.SetDestination(other.transform.position + dir * 5f);
-            }
-        }
+            Vector3 target = redirectPoint ? redirectPoint.position
+                : other.transform.position + (other.transform.position - transform.position).normalized * 5f;
 
-        var rb = other.attachedRigidbody;
-        if (rb) rb.AddForce((other.transform.position - transform.position).normalized * pushForce, ForceMode.VelocityChange);
+            if (NavMesh.SamplePosition(target, out var hit, 3f, NavMesh.AllAreas))
+                agent.SetDestination(hit.position);
+        }
+    }
+    
+    void OnValidate()
+    {
+        var c = GetComponent<Collider>();
+        if (c && !c.isTrigger) c.isTrigger = true;
+    }
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0f, 1f, 1f, 0.15f);
+        var col = GetComponent<Collider>();
+        if (!col) return;
+
+        if (col is BoxCollider box)
+        {
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.DrawCube(box.center, box.size);
+        }
+        else if (col is SphereCollider sph)
+        {
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.DrawSphere(sph.center, sph.radius);
+        }
+        Gizmos.matrix = Matrix4x4.identity;
     }
 }

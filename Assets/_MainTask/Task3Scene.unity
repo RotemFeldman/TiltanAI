@@ -19549,7 +19549,6 @@ GameObject:
   - component: {fileID: 517043905}
   - component: {fileID: 517043904}
   - component: {fileID: 517043908}
-  - component: {fileID: 517043909}
   m_Layer: 0
   m_Name: Build Location
   m_TagString: Untagged
@@ -19658,21 +19657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3f347ab3544d34995305a2e1cfc3da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &517043909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517043903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa29454db96e96247815f5ec27f49eab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyTag: Enemy
-  redirectPoint: {fileID: 1297781215}
-  pushForce: 8
 --- !u!1001 &520638910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49402,8 +49386,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1297781215}
-  m_Layer: 0
-  m_Name: RedirectPoint
+  - component: {fileID: 1297781216}
+  - component: {fileID: 1297781217}
+  m_Layer: 18
+  m_Name: SafeZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49424,6 +49410,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1297781216
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297781214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8, y: 5, z: 10}
+  m_Center: {x: 1.2, y: 1.8, z: 0}
+--- !u!114 &1297781217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297781214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa29454db96e96247815f5ec27f49eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTag: Enemy
+  redirectPoint: {fileID: 1297781215}
+  pushForce: 10
 --- !u!1001 &1298610613
 PrefabInstance:
   m_ObjectHideFlags: 0
