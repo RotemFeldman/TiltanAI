@@ -2894,11 +2894,11 @@ MonoBehaviour:
   - {fileID: 245298145}
   - {fileID: 546864033}
   brainFiles:
-  - {fileID: 4900000, guid: 09c15ccea9e60d343b44e1d576444ead, type: 3}
-  - {fileID: 4900000, guid: f34df96804063d94d803def71def10a4, type: 3}
-  - {fileID: 4900000, guid: f3c8276446dc8154aba7a89610221976, type: 3}
-  - {fileID: 4900000, guid: 366d0a77fffb1ee4d996383c492df2a1, type: 3}
-  - {fileID: 4900000, guid: df9db20d4f1a5f74ba538611473f7efd, type: 3}
+  - {fileID: 4900000, guid: cfefbfd240e7b6049a0f429ce475d9eb, type: 3}
+  - {fileID: 4900000, guid: ec26b995d34d26540a26a39556401f34, type: 3}
+  - {fileID: 4900000, guid: 0efa7c41f8457f9408e8960e978790d1, type: 3}
+  - {fileID: 4900000, guid: 7add8cd9fc3bd894ea776788b3386823, type: 3}
+  - {fileID: 4900000, guid: faa777b5d081d0449aa4d45aecab4733, type: 3}
   enemyToFriendlyMultiplier: 1.25
   minEnemies: 5
   maxEnemies: 50

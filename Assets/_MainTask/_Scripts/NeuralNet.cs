@@ -8,6 +8,11 @@ public class NeuralNetDef
     public float[][][] weights;       // [L-1][out][in]
     public float[][] biases;          // [L-1][out]
     public string[] actionNames;      // optional, ["Search","Chase","Attack","Retreat","Potion"]
+
+    // Flat backups for reliable JSON deserialization (JsonUtility-friendly)
+    // If present, we rebuild 'weights' and 'biases' from these.
+    public float[] weightsFlat;       // concatenated rows for each layer: layer0 rows (out0 * in0), then layer1 rows, etc.
+    public float[] biasesFlat;        // concatenated biases for each layer: out0, then out1, etc.
 }
 
 public static class NeuralNet

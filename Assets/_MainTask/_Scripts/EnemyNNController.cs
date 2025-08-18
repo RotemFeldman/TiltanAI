@@ -85,6 +85,21 @@ public class EnemyNNController : MonoBehaviour
             return;
         }
 
+        // Rebuild jagged weights/biases from flat arrays when needed (JsonUtility can't fill jagged arrays)
+        if ((brain.weights == null || brain.biases == null) &&
+            (brain.weightsFlat != null || brain.biasesFlat != null))
+        {
+            if (!RebuildFromFlat(brain, out string rebuildErr))
+            {
+                if (!brainBrokenLogged)
+                {
+                    Debug.LogError($"{name}: Brain JSON '{brainJson.name}' shape invalid (flat → jagged rebuild failed): {rebuildErr}. Falling back to heuristic chase.");
+                    brainBrokenLogged = true;
+                }
+                return;
+            }
+        }
+
         // Validate weights/biases shape and nulls
         if (!ValidateBrain(brain, out string whyBad))
         {
@@ -139,19 +154,19 @@ public class EnemyNNController : MonoBehaviour
             int outN = net.layers[l + 1];
 
             var W = net.weights[l];
-            var b = net.biases[l];
+            var B = net.biases[l];
 
             if (W == null) { error = $"weights[{l}] is null"; return false; }
-            if (b == null) { error = $"biases[{l}] is null";  return false; }
+            if (B == null) { error = $"biases[{l}] is null";  return false; }
 
             if (W.Length != outN)
             {
                 error = $"weights[{l}].Length {W.Length} != outN {outN}";
                 return false;
             }
-            if (b.Length != outN)
+            if (B.Length != outN)
             {
-                error = $"biases[{l}].Length {b.Length} != outN {outN}";
+                error = $"biases[{l}].Length {B.Length} != outN {outN}";
                 return false;
             }
 
@@ -174,13 +189,89 @@ public class EnemyNNController : MonoBehaviour
         return true;
     }
 
+    // Rebuilds jagged weights/biases from flat arrays according to 'layers'
+    // Returns false with error if lengths do not match the expected totals.
+    bool RebuildFromFlat(NeuralNetDef net, out string error)
+    {
+        error = null;
+        if (net.layers == null || net.layers.Length < 2)
+        {
+            error = "layers missing/too short";
+            return false;
+        }
+
+        int L = net.layers.Length - 1;
+        // Compute expected totals
+        int expectW = 0, expectB = 0;
+        for (int l = 0; l < L; l++)
+        {
+            int inN = net.layers[l];
+            int outN = net.layers[l + 1];
+            expectW += inN * outN;
+            expectB += outN;
+        }
+
+        if (net.weightsFlat == null || net.biasesFlat == null)
+        {
+            error = "weightsFlat or biasesFlat missing";
+            return false;
+        }
+        if (net.weightsFlat.Length != expectW)
+        {
+            error = $"weightsFlat length {net.weightsFlat.Length} != expected {expectW}";
+            return false;
+        }
+        if (net.biasesFlat.Length != expectB)
+        {
+            error = $"biasesFlat length {net.biasesFlat.Length} != expected {expectB}";
+            return false;
+        }
+
+        // Allocate jagged arrays
+        net.weights = new float[L][][];
+        net.biases  = new float[L][];
+
+        int wi = 0; // index into weightsFlat
+        int bi = 0; // index into biasesFlat
+
+        for (int l = 0; l < L; l++)
+        {
+            int inN = net.layers[l];
+            int outN = net.layers[l + 1];
+
+            var W = new float[outN][];
+            var B = new float[outN];
+
+            // Fill biases first (one per output neuron)
+            for (int j = 0; j < outN; j++)
+            {
+                B[j] = net.biasesFlat[bi++];
+            }
+
+            // Fill weights row by row (each output neuron has 'inN' weights)
+            for (int j = 0; j < outN; j++)
+            {
+                var row = new float[inN];
+                for (int i = 0; i < inN; i++)
+                {
+                    row[i] = net.weightsFlat[wi++];
+                }
+                W[j] = row;
+            }
+
+            net.weights[l] = W;
+            net.biases[l]  = B;
+        }
+
+        return true;
+    }
+
     void Update()
     {
         if (!initialized)
         {
             TryInitBrain();
             // Do NOT return early; allow heuristic fallback below even if init failed
-            // if (!initialized) return; // <- remove this return
         }
 
         timer -= Time.deltaTime;
@@ -306,7 +397,6 @@ public class EnemyNNController : MonoBehaviour
                     }
                     else
                     {
-                        // Helpful debug: check if target has any Damageable on its hierarchy
                         #if UNITY_EDITOR
                         var dmg =
                             sensors.nearestTarget.GetComponentInParent<Damageable>() ??
