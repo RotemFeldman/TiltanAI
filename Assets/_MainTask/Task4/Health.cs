@@ -32,6 +32,13 @@ public class Health : MonoBehaviour
                 Destroy(gameObject, destroyDelay);
         }
     }
+    
+    public void Heal(float amount)
+    {
+        if (IsDead) return;
+        if (amount <= 0f) return;
+        currentHP = Mathf.Min(maxHP, currentHP + amount);
+    }
 
     [ContextMenu("Kill (debug)")]
     public void KillDebug() => TakeDamage(999999f, null);

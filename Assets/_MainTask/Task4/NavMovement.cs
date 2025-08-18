@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+
 [RequireComponent(typeof(NavMeshAgent))]
 public class NavMovement : MonoBehaviour, IMovement
 {
@@ -23,28 +24,43 @@ public class NavMovement : MonoBehaviour, IMovement
 
     NavMeshAgent agent;
     float lastRepath;
-    Transform currentTarget;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = minStopDistance;
 
-        // If we spawn inside a safe haven, step out immediately
+        // If we spawned inside, step out immediately
         if (respectSafeHavens && SafeHaven.Any)
         {
             if (SafeHaven.IsInsideFor(gameObject, transform.position, out var _))
             {
-                var pos = PushOutsideHaven(transform.position);
-                agent.Warp(pos);
+                Vector3 outPos = SafeHaven.ClampDestinationFor(gameObject, transform.position);
+                agent.Warp(outPos);
             }
         }
     }
 
-    // --------- Public API (EnemyBrain calls these) ---------
+    void KeepOutsideGuard()
+    {
+        if (!respectSafeHavens || !SafeHaven.Any) return;
+
+        // If currently inside, issue an immediate step out command
+        if (SafeHaven.IsInsideFor(gameObject, transform.position, out var _))
+        {
+            Vector3 outPos = SafeHaven.ClampDestinationFor(gameObject, transform.position);
+            if (NavMesh.SamplePosition(outPos, out var hit, 4f, NavMesh.AllAreas))
+            {
+                agent.stoppingDistance = minStopDistance;
+                agent.SetDestination(hit.position);
+                lastRepath = Time.time;
+            }
+        }
+    }
 
     public void Search()
     {
+        KeepOutsideGuard();
         if (Time.time - lastRepath < wanderRepathInterval) return;
 
         Vector3 origin = transform.position;
@@ -67,14 +83,21 @@ public class NavMovement : MonoBehaviour, IMovement
 
     public void Chase(Transform target)
     {
-        currentTarget = target;
+        KeepOutsideGuard();
         if (target == null) return;
         if (Time.time - lastRepath < chaseRepathInterval) return;
 
-        Vector3 desired = GetTargetPosSafe(target);
+        Vector3 desired = target.position;
+        desired.y = transform.position.y;
 
         if (respectSafeHavens && SafeHaven.Any)
+        {
+            // If target is inside a haven, chase to the perimeter point instead
+            if (SafeHaven.TryGetEdgePointTowardsTarget(gameObject, desired, out var edge))
+                desired = edge;
+
             desired = SafeHaven.ClampDestinationFor(gameObject, desired);
+        }
 
         if (NavMesh.SamplePosition(desired, out var hit, 4f, NavMesh.AllAreas))
         {
@@ -86,6 +109,7 @@ public class NavMovement : MonoBehaviour, IMovement
 
     public void RetreatFrom(Vector3 threatCenter)
     {
+        KeepOutsideGuard();
         if (Time.time - lastRepath < retreatRepathInterval) return;
 
         Vector3 me = transform.position; me.y = threatCenter.y;
@@ -119,21 +143,5 @@ public class NavMovement : MonoBehaviour, IMovement
                 lastRepath = Time.time;
             }
         }
-    }
-
-    // --------- Helpers ---------
-
-    Vector3 GetTargetPosSafe(Transform t)
-    {
-        if (t == null) return transform.position;
-        Vector3 p = t.position;
-        p.y = transform.position.y;
-        return p;
-    }
-
-    Vector3 PushOutsideHaven(Vector3 pos)
-    {
-        // Move to just outside the nearest haven
-        return SafeHaven.ClampDestinationFor(gameObject, pos);
     }
 }

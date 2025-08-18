@@ -19,8 +19,9 @@ public interface IMovement
 {
     void Search();
     void Chase(Transform target);
-    void RetreatFrom(Vector3 point);
+    void RetreatFrom(Vector3 threatCenter);
 }
+
 
 public interface ICombat
 {
