@@ -31,7 +31,7 @@ public class EnemySensors : MonoBehaviour
     void Awake()
     {
         // Provide sane defaults if not set in Inspector
-        if (agentMask == 0)  agentMask  = LayerMask.GetMask("Allies");
+        if (agentMask == 0)  agentMask  = LayerMask.GetMask("Agents"); // ensure we see both enemies and opponents
         if (potionMask == 0) potionMask = LayerMask.GetMask("Potion");
     }
 

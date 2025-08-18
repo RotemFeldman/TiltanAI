@@ -182,7 +182,7 @@ MonoBehaviour:
   senseRadius: 10
   agentMask:
     serializedVersion: 2
-    m_Bits: 16640
+    m_Bits: 4294967295
   potionMask:
     serializedVersion: 2
     m_Bits: 65536
